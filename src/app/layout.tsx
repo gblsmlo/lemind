@@ -1,6 +1,12 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { fontFamily } from '../shared/font-family'
+import { Inter } from 'next/font/google'
+
+const fontFamily = Inter({
+	display: 'swap',
+	subsets: ['latin'],
+	variable: '--font-sans',
+})
 
 export const metadata: Metadata = {
 	description: '',

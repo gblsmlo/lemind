@@ -1,0 +1,76 @@
+{
+	"_meta": {
+		"columns": {},
+		"schemas": {},
+		"tables": {}
+	},
+	"dialect": "postgresql",
+	"enums": {},
+	"id": "4102e834-cd6f-4021-a8c6-c37223bbc98e",
+	"policies": {},
+	"prevId": "00000000-0000-0000-0000-000000000000",
+	"roles": {},
+	"schemas": {},
+	"sequences": {},
+	"tables": {
+		"public.accounts": {
+			"checkConstraints": {},
+			"columns": {
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp with time zone"
+				},
+				"deleted_at": {
+					"name": "deleted_at",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "timestamp with time zone"
+				},
+				"email": {
+					"name": "email",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"id": {
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "text"
+				},
+				"name": {
+					"name": "name",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"phone_number": {
+					"name": "phone_number",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp with time zone"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "accounts",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {}
+		}
+	},
+	"version": "7",
+	"views": {}
+}

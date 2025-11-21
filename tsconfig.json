@@ -19,7 +19,13 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"],
+      "@/libs": ["./src/libs/*"],
+      "@/components": ["./src/components/*"],
+      "@/utils": ["./src/utils/*"],
+      "@/hooks": ["./src/hooks/*"],
+      "@/modules": ["./src/modules/*"],
+      "@/infra": ["./src/infra/*"],
     }
   },
   "include": [
@@ -28,7 +34,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "commitlint.config.js"
   ],
   "exclude": ["node_modules"]
 }
