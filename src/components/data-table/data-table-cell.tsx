@@ -1,0 +1,14 @@
+import { Text } from '@tc96/ui-react'
+import { memo, type ReactNode } from 'react'
+
+export const TableCellTextEmpty = memo(() => {
+	return <Text size="sm">Não preenchido</Text>
+})
+
+TableCellTextEmpty.displayName = 'TableCellTextEmpty'
+
+export const TableCellText = memo(({ children }: { children: ReactNode }) => {
+	return <Text size="sm">{children}</Text>
+})
+
+TableCellText.displayName = 'TableCellText'

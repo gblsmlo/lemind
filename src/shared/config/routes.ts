@@ -57,17 +57,12 @@ export const crmRoutes: Route[] = [
 	{
 		icon: Contact,
 		label: 'Contacts',
-		link: '/dashboard/crm/contacts',
-	},
-	{
-		icon: Building2,
-		label: 'Companies',
-		link: '/dashboard/crm/companies',
+		link: '/dashboard/contacts',
 	},
 	{
 		icon: Briefcase,
 		label: 'Deals',
-		link: '/dashboard/crm/deals',
+		link: '/dashboard/deals',
 	},
 ]
 

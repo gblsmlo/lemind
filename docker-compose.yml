@@ -1,14 +1,23 @@
+version: "3.8"
+
 services:
   db:
-    image: bitnami/postgresql:latest
-    container_name: twincan_db
+    image: postgres:15-alpine
+    container_name: lemind_test_db
     environment:
-      POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
-      POSTGRES_DB: twincan_db
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: lemind_test
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-
+volumes:
+  pgdata:

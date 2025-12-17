@@ -34,5 +34,4 @@ export function DataTableView<TData, TValue>({
 	)
 }
 
-// Re-export DataTableColumnHeader for convenience
 export { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'

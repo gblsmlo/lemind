@@ -5,7 +5,10 @@ import type * as React from 'react'
 
 function Table({ className, ...props }: React.ComponentProps<'table'>) {
 	return (
-		<div className="relative w-full overflow-x-auto" data-slot="table-container">
+		<div
+			className="relative w-full overflow-x-auto"
+			data-slot="table-container"
+		>
 			<table
 				className={cn('w-full caption-bottom text-sm', className)}
 				data-slot="table"
@@ -16,7 +19,13 @@ function Table({ className, ...props }: React.ComponentProps<'table'>) {
 }
 
 function TableHeader({ className, ...props }: React.ComponentProps<'thead'>) {
-	return <thead className={cn('[&_tr]:border-b', className)} data-slot="table-header" {...props} />
+	return (
+		<thead
+			className={cn('[&_tr]:border-b', className)}
+			data-slot="table-header"
+			{...props}
+		/>
+	)
 }
 
 function TableBody({ className, ...props }: React.ComponentProps<'tbody'>) {
@@ -32,7 +41,10 @@ function TableBody({ className, ...props }: React.ComponentProps<'tbody'>) {
 function TableFooter({ className, ...props }: React.ComponentProps<'tfoot'>) {
 	return (
 		<tfoot
-			className={cn('border-t bg-muted/50 font-medium [&>tr]:last:border-b-0', className)}
+			className={cn(
+				'border-t bg-muted/50 font-medium [&>tr]:last:border-b-0',
+				className,
+			)}
 			data-slot="table-footer"
 			{...props}
 		/>
@@ -43,7 +55,7 @@ function TableRow({ className, ...props }: React.ComponentProps<'tr'>) {
 	return (
 		<tr
 			className={cn(
-				'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
+				'border-b bg-background/40 transition-colors hover:bg-background/50 data-[state=selected]:bg-muted',
 				className,
 			)}
 			data-slot="table-row"
@@ -78,7 +90,10 @@ function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
 	)
 }
 
-function TableCaption({ className, ...props }: React.ComponentProps<'caption'>) {
+function TableCaption({
+	className,
+	...props
+}: React.ComponentProps<'caption'>) {
 	return (
 		<caption
 			className={cn('mt-4 text-muted-foreground text-sm', className)}
@@ -88,4 +103,13 @@ function TableCaption({ className, ...props }: React.ComponentProps<'caption'>) 
 	)
 }
 
-export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption }
+export {
+	Table,
+	TableHeader,
+	TableBody,
+	TableFooter,
+	TableHead,
+	TableRow,
+	TableCell,
+	TableCaption,
+}

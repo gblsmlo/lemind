@@ -3,16 +3,17 @@ import { authUsers } from 'drizzle-orm/supabase'
 import { auditFields } from '../helpers'
 import { spacesTable } from './space'
 
-export const projectsTable = pgTable('projects', {
-	_id: uuid('id').primaryKey().defaultRandom(),
+export const processesTable = pgTable('processes', {
+	id: uuid().primaryKey().defaultRandom(),
+	title: text(),
 	description: text(),
-	name: text().notNull(),
+	slug: text().notNull().unique(),
+	processNumber: text('process_number'),
 	ownerId: uuid('owner_id')
 		.notNull()
 		.references(() => authUsers.id, { onDelete: 'cascade' }),
-	slug: text().notNull().unique(),
 	spaceId: uuid('space_id')
 		.notNull()
-		.references(() => spacesTable._id, { onDelete: 'cascade' }),
+		.references(() => spacesTable.id, { onDelete: 'cascade' }),
 	...auditFields,
 })

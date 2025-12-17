@@ -49,5 +49,7 @@ export const failure = <E = unknown>({
 })
 
 // Type Guards
-export const isSuccess = <T, E>(result: Result<T, E>): result is Success<T> => result.success
-export const isFailure = <T, E>(result: Result<T, E>): result is Failure<E> => !result.success
+export const isSuccess = <T, E>(result: Result<T, E>): result is Success<T> =>
+	result.success
+export const isFailure = <T, E>(result: Result<T, E>): result is Failure<E> =>
+	!result.success

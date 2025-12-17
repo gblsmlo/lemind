@@ -74,13 +74,13 @@ CREATE TABLE "spaces" (
 --> statement-breakpoint
 CREATE TABLE "tasks" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"assignee_id" uuid NOT NULL,
-	"case_id" uuid NOT NULL,
+	"title" text NOT NULL,
 	"description" text,
 	"due_date" timestamp,
 	"priority" "task_priority" DEFAULT 'MEDIUM',
+	"assignee_id" uuid NOT NULL,
+	"case_id" uuid NOT NULL,
 	"organization_id" uuid NOT NULL,
-	"title" text NOT NULL
 );
 --> statement-breakpoint
 ALTER TABLE "cases" ADD CONSTRAINT "cases_client_id_clients_id_fk" FOREIGN KEY ("client_id") REFERENCES "public"."clients"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint

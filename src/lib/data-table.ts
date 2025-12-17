@@ -1,5 +1,9 @@
 import { dataTableConfig } from '@/config/data-table'
-import type { ExtendedColumnFilter, FilterOperator, FilterVariant } from '@/types/data-table'
+import type {
+	ExtendedColumnFilter,
+	FilterOperator,
+	FilterVariant,
+} from '@/types/data-table'
 import type { Column } from '@tanstack/react-table'
 
 export function getCommonPinningStyles<TData>({
@@ -10,11 +14,13 @@ export function getCommonPinningStyles<TData>({
 	withBorder?: boolean
 }): React.CSSProperties {
 	const isPinned = column.getIsPinned()
-	const isLastLeftPinnedColumn = isPinned === 'left' && column.getIsLastColumn('left')
-	const isFirstRightPinnedColumn = isPinned === 'right' && column.getIsFirstColumn('right')
+	const isLastLeftPinnedColumn =
+		isPinned === 'left' && column.getIsLastColumn('left')
+	const isFirstRightPinnedColumn =
+		isPinned === 'right' && column.getIsFirstColumn('right')
 
 	return {
-		background: isPinned ? 'var(--color-stone-950)' : 'var(--color-stone-900)',
+		// background: isPinned ? 'var(--color-stone-950)' : 'var(--color-stone-800)',
 		boxShadow: withBorder
 			? isLastLeftPinnedColumn
 				? '-4px 0 4px -4px var(--border) inset'
@@ -22,10 +28,10 @@ export function getCommonPinningStyles<TData>({
 					? '4px 0 4px -4px var(--border) inset'
 					: undefined
 			: undefined,
-		height: '44px',
+		height: '52px',
 		left: isPinned === 'left' ? `${column.getStart('left')}px` : undefined,
-		opacity: isPinned ? 0.95 : 1,
-		padding: '4px 20px',
+		opacity: isPinned ? 1 : 1,
+		padding: '12px 20px',
 		position: isPinned ? 'sticky' : 'relative',
 		right: isPinned === 'right' ? `${column.getAfter('right')}px` : undefined,
 		width: column.getSize(),
@@ -34,7 +40,10 @@ export function getCommonPinningStyles<TData>({
 }
 
 export function getFilterOperators(filterVariant: FilterVariant) {
-	const operatorMap: Record<FilterVariant, { label: string; value: FilterOperator }[]> = {
+	const operatorMap: Record<
+		FilterVariant,
+		{ label: string; value: FilterOperator }[]
+	> = {
 		boolean: dataTableConfig.booleanOperators,
 		date: dataTableConfig.dateOperators,
 		dateRange: dataTableConfig.dateOperators,
@@ -63,6 +72,8 @@ export function getValidFilters<TData>(
 			filter.operator === 'isNotEmpty' ||
 			(Array.isArray(filter.value)
 				? filter.value.length > 0
-				: filter.value !== '' && filter.value !== null && filter.value !== undefined),
+				: filter.value !== '' &&
+					filter.value !== null &&
+					filter.value !== undefined),
 	)
 }
