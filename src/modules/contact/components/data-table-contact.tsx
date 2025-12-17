@@ -1,7 +1,6 @@
 import { DataTableView } from '@/components/data-table/data-table-view'
 import { DataTableCreateAction } from '@/components/data-table/data-tablet-create-action'
 import { isFailure, isSuccess } from '@/shared/errors'
-import { sleep } from '@/shared/utils/sleep'
 import { findContacts } from '../actions/find-contacts-actions'
 import type { FindContactsInput } from '../types'
 import { contactColumns } from './columns'
@@ -18,8 +17,6 @@ export async function DataTableContact() {
 	} satisfies FindContactsInput
 
 	const result = await findContacts(input)
-
-	await sleep(1000)
 
 	if (isSuccess(result)) {
 		const { rows, total } = result.data

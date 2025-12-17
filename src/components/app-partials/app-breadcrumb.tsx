@@ -10,12 +10,10 @@ import {
 } from '@/components/ui/breadcrumb'
 import { allRoutes } from '@/shared/config/routes'
 import { toSlug } from '@/shared/utils/to-slug'
-import type { LucideIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useMemo } from 'react'
 
 type BreadcrumbRoute = {
-	icon?: LucideIcon | null
 	label: string
 	link: string | null
 }
@@ -70,7 +68,6 @@ export function AppBreadcrumb({ routes }: AppBreadcrumbProps) {
 					return isLastItem ? (
 						<BreadcrumbItem key={toSlug(item.label)}>
 							<BreadcrumbPage className="flex items-center gap-2">
-								{Icon && <Icon className="size-4" />}
 								{item.label}
 							</BreadcrumbPage>
 						</BreadcrumbItem>
@@ -81,7 +78,6 @@ export function AppBreadcrumb({ routes }: AppBreadcrumbProps) {
 									className="flex items-center gap-2 transition-colors hover:text-foreground"
 									href={item.link || '#'}
 								>
-									{Icon && <Icon className="size-4" />}
 									{item.label}
 								</BreadcrumbLink>
 							</BreadcrumbItem>

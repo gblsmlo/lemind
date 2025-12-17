@@ -1,15 +1,12 @@
 import {
 	Briefcase,
 	Bug,
-	Building2,
 	Contact,
-	DollarSign,
 	FileText,
 	Folder,
 	HelpCircle,
 	Home,
 	type LucideIcon,
-	Package,
 	PieChart,
 	ReceiptIcon,
 	Settings,
@@ -54,6 +51,11 @@ export const mainRoutes: Route[] = [
 ]
 
 export const crmRoutes: Route[] = [
+	{
+		icon: Contact,
+		label: 'Clients',
+		link: '/dashboard/clients',
+	},
 	{
 		icon: Contact,
 		label: 'Contacts',
@@ -115,22 +117,8 @@ export const userRoutes: Route[] = [
 	},
 ]
 
-export const storeRoutes: Route[] = [
-	{
-		icon: Package,
-		label: 'Products',
-		link: '/dashboard/store/products',
-	},
-	{
-		icon: DollarSign,
-		label: 'Prices',
-		link: '/dashboard/store/prices',
-	},
-]
-
 export const allRoutes: Route[] = [
 	...mainRoutes,
-	...storeRoutes,
 	...crmRoutes,
 	...secondaryRoutes,
 	...documentsRoutes,

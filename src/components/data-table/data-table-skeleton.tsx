@@ -36,7 +36,10 @@ export function DataTableSkeleton({
 	)
 
 	return (
-		<div className={cn('flex w-full flex-col gap-2.5 overflow-auto', className)} {...props}>
+		<div
+			className={cn('flex w-full flex-col gap-2.5 overflow-auto', className)}
+			{...props}
+		>
 			<div className="flex w-full items-center justify-between gap-2 overflow-auto p-1">
 				<div className="flex flex-1 items-center gap-2">
 					{filterCount > 0
@@ -45,7 +48,9 @@ export function DataTableSkeleton({
 							))
 						: null}
 				</div>
-				{withViewOptions ? <Skeleton className="ml-auto hidden h-7 w-18 lg:flex" /> : null}
+				{withViewOptions ? (
+					<Skeleton className="ml-auto hidden h-7 w-18 lg:flex" />
+				) : null}
 			</div>
 			<div className="rounded-md border">
 				<Table>
@@ -60,7 +65,7 @@ export function DataTableSkeleton({
 											width: cozyCellWidths[j],
 										}}
 									>
-										<Skeleton className="h-6 w-full" />
+										<Skeleton className="h-8 w-full" />
 									</TableHead>
 								))}
 							</TableRow>
@@ -77,7 +82,7 @@ export function DataTableSkeleton({
 											width: cozyCellWidths[j],
 										}}
 									>
-										<Skeleton className="h-6 w-full" />
+										<Skeleton className="h-8 w-full" />
 									</TableCell>
 								))}
 							</TableRow>
