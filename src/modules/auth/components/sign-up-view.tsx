@@ -6,7 +6,9 @@ export function SignUpView() {
 		<section className="space-y-6">
 			<header className="flex flex-col gap-0.5">
 				<h1 className="font-bold text-2xl text-foreground">Criar conta</h1>
-				<p className="text-base text-muted-foreground">Insira seus dados para criar sua conta</p>
+				<p className="text-base text-muted-foreground">
+					Insira seus dados para criar sua conta
+				</p>
 			</header>
 
 			<main>

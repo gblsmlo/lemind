@@ -13,7 +13,12 @@ export function GoogleProviderButton() {
 	}
 
 	return (
-		<Button disabled={isPending} onClick={handleGoogleSignIn} type="button" variant="outline">
+		<Button
+			disabled={isPending}
+			onClick={handleGoogleSignIn}
+			type="button"
+			variant="outline"
+		>
 			<svg
 				aria-hidden="true"
 				className="mr-2 h-4 w-4"

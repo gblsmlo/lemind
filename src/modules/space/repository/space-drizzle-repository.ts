@@ -18,7 +18,10 @@ export class SpaceDrizzleRepository implements SpaceRepository {
 			updatedAt: new Date(),
 		}
 
-		const [result] = await this.db.update(spacesTable).set(update).where(eq(spacesTable._id, id))
+		const [result] = await this.db
+			.update(spacesTable)
+			.set(update)
+			.where(eq(spacesTable._id, id))
 
 		return result
 	}

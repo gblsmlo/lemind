@@ -5,10 +5,11 @@ import { spacesTable } from './space'
 
 export const contactsTable = pgTable('contacts', {
 	id: uuid().defaultRandom().primaryKey(),
-	name: text('name').notNull(),
-	email: text('email'),
-	phone: text('phone'),
-	notes: text('notes'),
+	avatar: text('avatar_url'),
+	name: text().notNull(),
+	email: text(),
+	phone: text(),
+	notes: text(),
 	spaceId: uuid('space_id')
 		.references(() => spacesTable.id)
 		.notNull(),

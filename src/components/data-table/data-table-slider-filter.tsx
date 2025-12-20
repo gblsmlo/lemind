@@ -2,7 +2,11 @@
 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
 import { Slider } from '@/components/ui/slider'
 import { cn } from '@/lib/utils'
@@ -31,7 +35,10 @@ function parseValuesAsNumbers(value: unknown): RangeValue | undefined {
 	if (
 		Array.isArray(value) &&
 		value.length === 2 &&
-		value.every((v) => (typeof v === 'string' || typeof v === 'number') && !Number.isNaN(v))
+		value.every(
+			(v) =>
+				(typeof v === 'string' || typeof v === 'number') && !Number.isNaN(v),
+		)
 	) {
 		return [Number(value[0]), Number(value[1])]
 	}
@@ -44,7 +51,10 @@ interface DataTableSliderFilterProps<TData> {
 	title?: string
 }
 
-export function DataTableSliderFilter<TData>({ column, title }: DataTableSliderFilterProps<TData>) {
+export function DataTableSliderFilter<TData>({
+	column,
+	title,
+}: DataTableSliderFilterProps<TData>) {
 	const id = React.useId()
 
 	const columnFilterValue = parseValuesAsNumbers(column.getFilterValue())
@@ -62,7 +72,10 @@ export function DataTableSliderFilter<TData>({ column, title }: DataTableSliderF
 			const values = column.getFacetedMinMaxValues()
 			if (values && Array.isArray(values) && values.length === 2) {
 				const [facetMinValue, facetMaxValue] = values
-				if (typeof facetMinValue === 'number' && typeof facetMaxValue === 'number') {
+				if (
+					typeof facetMinValue === 'number' &&
+					typeof facetMaxValue === 'number'
+				) {
 					minValue = facetMinValue
 					maxValue = facetMaxValue
 				}
@@ -71,7 +84,11 @@ export function DataTableSliderFilter<TData>({ column, title }: DataTableSliderF
 
 		const rangeSize = maxValue - minValue
 		const step =
-			rangeSize <= 20 ? 1 : rangeSize <= 100 ? Math.ceil(rangeSize / 20) : Math.ceil(rangeSize / 50)
+			rangeSize <= 20
+				? 1
+				: rangeSize <= 100
+					? Math.ceil(rangeSize / 20)
+					: Math.ceil(rangeSize / 50)
 
 		return { max: maxValue, min: minValue, step }
 	}, [column, defaultRange])
@@ -126,7 +143,11 @@ export function DataTableSliderFilter<TData>({ column, title }: DataTableSliderF
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
-				<Button className="border-dashed font-normal" size="sm" variant="outline">
+				<Button
+					className="border-dashed font-normal"
+					size="sm"
+					variant="outline"
+				>
 					{columnFilterValue ? (
 						<div
 							aria-label={`Clear ${title} filter`}
@@ -147,7 +168,8 @@ export function DataTableSliderFilter<TData>({ column, title }: DataTableSliderF
 								className="mx-0.5 data-[orientation=vertical]:h-4"
 								orientation="vertical"
 							/>
-							{formatValue(columnFilterValue[0])} - {formatValue(columnFilterValue[1])}
+							{formatValue(columnFilterValue[0])} -{' '}
+							{formatValue(columnFilterValue[1])}
 							{unit ? ` ${unit}` : ''}
 						</>
 					) : null}
@@ -220,7 +242,12 @@ export function DataTableSliderFilter<TData>({ column, title }: DataTableSliderF
 						value={range}
 					/>
 				</div>
-				<Button aria-label={`Clear ${title} filter`} onClick={onReset} size="sm" variant="outline">
+				<Button
+					aria-label={`Clear ${title} filter`}
+					onClick={onReset}
+					size="sm"
+					variant="outline"
+				>
 					Clear
 				</Button>
 			</PopoverContent>

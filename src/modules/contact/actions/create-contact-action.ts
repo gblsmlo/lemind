@@ -1,18 +1,18 @@
 'use server'
 
 import { failure, type Result, success } from '@/shared/errors'
-import { PostgrestError } from '@supabase/supabase-js'
-import { cache } from 'react'
 import { contactRepository } from '../repository/contact-drizzle-repository'
-import { contactInsertSchema } from '../schemas'
-import type { Contact, ContactInsert } from '../types'
+import { type CreateContactInput, createContactInput } from '../schemas'
+import type { Contact } from '../types'
 
 type Output = {
 	row: Contact
 }
 
-const action = async (input: ContactInsert): Promise<Result<Output>> => {
-	const validated = contactInsertSchema.safeParse(input)
+export const createContactAction = async (
+	data: CreateContactInput,
+): Promise<Result<Output>> => {
+	const validated = createContactInput.safeParse(data)
 
 	if (!validated.success) {
 		return failure({
@@ -22,7 +22,7 @@ const action = async (input: ContactInsert): Promise<Result<Output>> => {
 		})
 	}
 
-	const { name, email, phone, notes, spaceId } = input
+	const { name, email, phone, notes, avatarUrl } = validated.data
 
 	try {
 		const result = await contactRepository.create({
@@ -30,7 +30,8 @@ const action = async (input: ContactInsert): Promise<Result<Output>> => {
 			email,
 			phone,
 			notes,
-			spaceId,
+			avatar: avatarUrl ?? null,
+			spaceId: 'a069aabe-abdd-4b03-9c11-84437f7d1384', // TODO: Get from context/session
 		})
 
 		if (!result.row) {
@@ -41,22 +42,17 @@ const action = async (input: ContactInsert): Promise<Result<Output>> => {
 			})
 		}
 
+		const { row } = result
 		return success({
-			row: result.row,
+			row,
 		})
 	} catch (error) {
-		if (error instanceof PostgrestError) {
-			return failure({
-				type: 'DATABASE_ERROR',
-				message: error.message,
-				error,
-			})
-		}
+		console.error(error)
 
 		if (error instanceof Error) {
 			return failure({
 				message: 'Failed to create contact',
-				type: 'UNKNOWN_ERROR',
+				type: 'DATABASE_ERROR',
 				error,
 			})
 		}
@@ -68,5 +64,3 @@ const action = async (input: ContactInsert): Promise<Result<Output>> => {
 		})
 	}
 }
-
-export const createContactAction = cache(action)

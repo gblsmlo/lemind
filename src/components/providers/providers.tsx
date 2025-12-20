@@ -8,7 +8,12 @@ import { ThemeProvider } from './theme-provider'
 
 export function Providers({ children }: { children: ReactNode }) {
 	return (
-		<ThemeProvider attribute="class" defaultTheme="system" disableTransitionOnChange enableSystem>
+		<ThemeProvider
+			attribute="class"
+			defaultTheme="system"
+			disableTransitionOnChange
+			enableSystem
+		>
 			<AuthProvider>
 				<NuqsAdapter>{children}</NuqsAdapter>
 				<Toaster />

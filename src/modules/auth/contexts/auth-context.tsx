@@ -1,8 +1,17 @@
 'use client'
 
-import { makeSupabaseClient, makeSupabaseSession } from '@/lib/supabase/factories-client'
+import {
+	makeSupabaseClient,
+	makeSupabaseSession,
+} from '@/lib/supabase/factories-client'
 import { useRouter } from 'next/navigation'
-import { createContext, type ReactNode, useCallback, useEffect, useState } from 'react'
+import {
+	createContext,
+	type ReactNode,
+	useCallback,
+	useEffect,
+	useState,
+} from 'react'
 import { signOutAction } from '../actions/sign-out-action'
 import type { UserAuth, UserSupabase } from '../type'
 
@@ -20,7 +29,8 @@ export const AuthContext = createContext({} as AuthContextValue)
 function mapSupabaseUserToAuthUser(user: UserSupabase | null): UserAuth | null {
 	if (!user) return null
 
-	const username = user.user_metadata?.username || user.email?.split('@')[0] || 'User'
+	const username =
+		user.user_metadata?.username || user.email?.split('@')[0] || 'User'
 
 	return {
 		email: user.email || '',

@@ -95,7 +95,9 @@ describe('Result Pattern', () => {
 		// Simulating an Auth Action similar to getAuthGuardAction
 		type AuthState = { isAuthenticated: boolean; userId?: string }
 
-		const mockAuthAction = async (token: string | null): Promise<Result<AuthState>> => {
+		const mockAuthAction = async (
+			token: string | null,
+		): Promise<Result<AuthState>> => {
 			if (!token) {
 				return failure({
 					message: 'No token provided',

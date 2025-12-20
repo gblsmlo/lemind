@@ -80,7 +80,9 @@ describe('SpaceDrizzleRepository', () => {
 
 			repository = new SpaceDrizzleRepository(mockDb)
 
-			await expect(repository.create(mockSpaceInsert)).rejects.toThrow('Database connection failed')
+			await expect(repository.create(mockSpaceInsert)).rejects.toThrow(
+				'Database connection failed',
+			)
 		})
 
 		it('should create space with only required fields', async () => {
@@ -154,8 +156,12 @@ describe('SpaceDrizzleRepository', () => {
 
 			const setCallArg = mockSet.mock.calls[0][0]
 			expect(setCallArg.updatedAt).toBeInstanceOf(Date)
-			expect(setCallArg.updatedAt.getTime()).toBeGreaterThanOrEqual(dateBefore.getTime())
-			expect(setCallArg.updatedAt.getTime()).toBeLessThanOrEqual(dateAfter.getTime())
+			expect(setCallArg.updatedAt.getTime()).toBeGreaterThanOrEqual(
+				dateBefore.getTime(),
+			)
+			expect(setCallArg.updatedAt.getTime()).toBeLessThanOrEqual(
+				dateAfter.getTime(),
+			)
 		})
 
 		it('should propagate error when update fails', async () => {
@@ -170,9 +176,9 @@ describe('SpaceDrizzleRepository', () => {
 
 			repository = new SpaceDrizzleRepository(mockDb)
 
-			await expect(repository.update(mockSpace._id, mockSpaceUpdate)).rejects.toThrow(
-				'Update failed',
-			)
+			await expect(
+				repository.update(mockSpace._id, mockSpaceUpdate),
+			).rejects.toThrow('Update failed')
 		})
 
 		it('should return undefined when no record is found', async () => {
@@ -194,7 +200,9 @@ describe('SpaceDrizzleRepository', () => {
 
 	describe('delete', () => {
 		it('should delete a space successfully and return deletedId', async () => {
-			const mockReturning = vi.fn().mockResolvedValue([{ deletedId: mockSpace._id }])
+			const mockReturning = vi
+				.fn()
+				.mockResolvedValue([{ deletedId: mockSpace._id }])
 			const mockWhere = vi.fn().mockReturnValue({ returning: mockReturning })
 			const mockDelete = vi.fn().mockReturnValue({ where: mockWhere })
 
@@ -224,7 +232,9 @@ describe('SpaceDrizzleRepository', () => {
 
 			repository = new SpaceDrizzleRepository(mockDb)
 
-			await expect(repository.delete(mockSpace._id)).rejects.toThrow('Delete failed')
+			await expect(repository.delete(mockSpace._id)).rejects.toThrow(
+				'Delete failed',
+			)
 		})
 
 		it('should handle attempt to delete non-existent record', async () => {
@@ -304,7 +314,9 @@ describe('SpaceDrizzleRepository', () => {
 			repository = new SpaceDrizzleRepository(mockDb)
 
 			// Act & Assert
-			await expect(repository.findByOwnerId(mockSpace.ownerId)).rejects.toThrow('Query failed')
+			await expect(repository.findByOwnerId(mockSpace.ownerId)).rejects.toThrow(
+				'Query failed',
+			)
 		})
 	})
 
@@ -362,7 +374,9 @@ describe('SpaceDrizzleRepository', () => {
 
 			repository = new SpaceDrizzleRepository(mockDb)
 
-			await expect(repository.findBySlug(mockSpace.slug)).rejects.toThrow('Query failed')
+			await expect(repository.findBySlug(mockSpace.slug)).rejects.toThrow(
+				'Query failed',
+			)
 		})
 
 		it('should return undefined when slug is not found', async () => {

@@ -1,6 +1,7 @@
 'use client'
 
 import { Alert, AlertTitle } from '@/components/ui/alert'
+import { FileUpload } from '@/components/ui/file-upload'
 import {
 	Form,
 	FormControl,
@@ -11,7 +12,9 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { isFailure, isSuccess } from '@/shared/errors/result'
+import { uploadAvatar } from '@/lib/supabase/upload-avatar'
+import { useAuth } from '@/modules/auth'
+import { isFailure, isSuccess } from '@/shared/errors'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@tc96/ui-react'
 import { Loader2 } from 'lucide-react'
@@ -23,57 +26,77 @@ import { createContactAction } from '../actions/create-contact-action'
 import { type ContactFormData, contactFormSchema } from '../schemas'
 
 interface ContactFormProps {
-	spaceId: string
-	onSuccess?: () => void
+	initialValues?: ContactFormData
 }
 
-export function ContactForm({ spaceId, onSuccess }: ContactFormProps) {
+export function ContactForm({ initialValues }: ContactFormProps) {
+	const { user } = useAuth()
 	const [isPending, startTransition] = useTransition()
+
 	const router = useRouter()
 
 	const form = useForm<ContactFormData>({
-		defaultValues: {
-			name: '',
-			email: '',
-			phone: '',
-			notes: '',
-			spaceId,
-		},
+		values: initialValues,
 		resolver: zodResolver(contactFormSchema),
 	})
 
-	const onSubmit = (formData: ContactFormData) => {
-		form.clearErrors()
+	const handleCancel = () => {
+		form.reset()
+		router.back()
+	}
 
+	const handleSubmit = form.handleSubmit((formData: ContactFormData) => {
 		startTransition(async () => {
-			const result = await createContactAction(formData)
+			let avatarUrl: string | undefined
+
+			if (formData.avatar) {
+				const uploadResult = await uploadAvatar(formData.avatar, {
+					folder: 'avatars',
+					fileName: user?.id,
+				})
+
+				if (!uploadResult.success) {
+					form.setError('avatar', {
+						message: 'Falha ao enviar o avatar. Tente novamente.',
+					})
+
+					return
+				}
+
+				avatarUrl = uploadResult.data.url
+			}
+
+			const result = await createContactAction({
+				name: formData.name,
+				email: formData.email,
+				phone: formData.phone,
+				notes: formData.notes,
+				avatarUrl,
+			})
+
+			if (isSuccess(result)) {
+				const contactId = result.data.row.id
+
+				toast.success('Contato criado com sucesso!')
+				form.reset(formData)
+
+				router.push(`/contacts/${contactId}`)
+			}
 
 			if (isFailure(result)) {
 				form.setError('root', {
 					message: result.message,
 				})
 			}
-
-			if (isSuccess(result)) {
-				toast.success('Contato criado com sucesso!')
-				form.reset()
-				router.refresh()
-
-				if (onSuccess) {
-					onSuccess()
-				}
-			}
 		})
-	}
+	})
 
-	const isSubmitting = form.formState.isSubmitting || isPending
+	const isDisabled = isPending
+	const isLoading = isPending || form.formState.isSubmitting
 
 	return (
 		<Form {...form}>
-			<form
-				className="flex flex-col gap-6"
-				onSubmit={form.handleSubmit(onSubmit)}
-			>
+			<form className="flex flex-col gap-6" onSubmit={handleSubmit}>
 				<div className="grid gap-4">
 					{form.formState.errors.root && (
 						<Alert variant="destructive">
@@ -83,22 +106,30 @@ export function ContactForm({ spaceId, onSuccess }: ContactFormProps) {
 
 					<FormField
 						control={form.control}
-						name="name"
+						name="avatar"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Nome</FormLabel>
 								<FormControl>
-									<Input
-										placeholder="Nome completo"
-										{...field}
-										disabled={isSubmitting}
-									/>
+									<FileUpload disabled={isDisabled} {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
 
+					<FormField
+						control={form.control}
+						name="name"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Nome</FormLabel>
+								<FormControl>
+									<Input placeholder="Nome completo" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 					<FormField
 						control={form.control}
 						name="email"
@@ -110,14 +141,12 @@ export function ContactForm({ spaceId, onSuccess }: ContactFormProps) {
 										placeholder="email@exemplo.com"
 										type="email"
 										{...field}
-										disabled={isSubmitting}
 									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
-
 					<FormField
 						control={form.control}
 						name="phone"
@@ -125,46 +154,39 @@ export function ContactForm({ spaceId, onSuccess }: ContactFormProps) {
 							<FormItem>
 								<FormLabel>Telefone</FormLabel>
 								<FormControl>
-									<Input
-										placeholder="(00) 00000-0000"
-										type="tel"
-										{...field}
-										disabled={isSubmitting}
-									/>
+									<Input placeholder="(00) 00000-0000" type="tel" {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
-
 					<FormField
 						control={form.control}
 						name="notes"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Observações</FormLabel>
+								<FormLabel>Notas</FormLabel>
 								<FormControl>
-									<Textarea
-										placeholder="Adicione observações sobre o contato"
-										rows={4}
-										{...field}
-										disabled={isSubmitting}
-									/>
+									<Textarea placeholder="" rows={4} {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
-
 					<div className="flex justify-end gap-4">
-						<Button disabled={isSubmitting} type="button" variant="ghost">
+						<Button
+							disabled={isDisabled}
+							onClick={handleCancel}
+							type="button"
+							variant="ghost"
+						>
 							Cancelar
 						</Button>
-						<Button disabled={isSubmitting} type="submit">
-							{isSubmitting ? (
-								<Loader2 className="size-4 animate-spin" />
+						<Button disabled={isDisabled}>
+							{isLoading ? (
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 							) : (
-								'Criar contato'
+								'Salvar'
 							)}
 						</Button>
 					</div>

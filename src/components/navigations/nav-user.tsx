@@ -61,7 +61,9 @@ export function NavUser({ items, ...props }: NavUserProps) {
 
 							<div className="grid flex-1 text-left text-sm leading-tight">
 								<span className="truncate font-medium">{cachedUser.name}</span>
-								<span className="truncate text-muted-foreground text-xs">{cachedUser.email}</span>
+								<span className="truncate text-muted-foreground text-xs">
+									{cachedUser.email}
+								</span>
 							</div>
 							<Dot className="ml-auto size-4" />
 						</SidebarMenuButton>
@@ -77,8 +79,12 @@ export function NavUser({ items, ...props }: NavUserProps) {
 								<NavUserAvatar name={cachedUser.name} />
 
 								<div className="grid flex-1 text-left text-sm leading-tight">
-									<span className="truncate font-medium">{cachedUser.name}</span>
-									<span className="truncate text-muted-foreground text-xs">{cachedUser.email}</span>
+									<span className="truncate font-medium">
+										{cachedUser.name}
+									</span>
+									<span className="truncate text-muted-foreground text-xs">
+										{cachedUser.email}
+									</span>
 								</div>
 							</div>
 						</DropdownMenuLabel>

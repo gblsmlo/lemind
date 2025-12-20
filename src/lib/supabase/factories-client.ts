@@ -14,7 +14,9 @@ type MakeSupabaseSessionOutput = {
 	session: Session | null
 }
 
-export async function makeSupabaseSession(): Promise<Result<MakeSupabaseSessionOutput>> {
+export async function makeSupabaseSession(): Promise<
+	Result<MakeSupabaseSessionOutput>
+> {
 	const supabase = createClient()
 	const {
 		data: { session },

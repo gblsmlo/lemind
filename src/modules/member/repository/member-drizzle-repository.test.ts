@@ -150,8 +150,12 @@ describe('MemberDrizzleRepository', () => {
 
 			const setCallArg = mockSet.mock.calls[0][0]
 			expect(setCallArg.updatedAt).toBeInstanceOf(Date)
-			expect(setCallArg.updatedAt.getTime()).toBeGreaterThanOrEqual(dateBefore.getTime())
-			expect(setCallArg.updatedAt.getTime()).toBeLessThanOrEqual(dateAfter.getTime())
+			expect(setCallArg.updatedAt.getTime()).toBeGreaterThanOrEqual(
+				dateBefore.getTime(),
+			)
+			expect(setCallArg.updatedAt.getTime()).toBeLessThanOrEqual(
+				dateAfter.getTime(),
+			)
 		})
 
 		it('should propagate error when update fails', async () => {
@@ -166,9 +170,9 @@ describe('MemberDrizzleRepository', () => {
 
 			repository = new MemberDrizzleRepository(mockDb)
 
-			await expect(repository.update(mockMember._id, mockMemberUpdate)).rejects.toThrow(
-				'Update failed',
-			)
+			await expect(
+				repository.update(mockMember._id, mockMemberUpdate),
+			).rejects.toThrow('Update failed')
 		})
 
 		it('should return undefined when no record is found', async () => {
@@ -182,7 +186,10 @@ describe('MemberDrizzleRepository', () => {
 
 			repository = new MemberDrizzleRepository(mockDb)
 
-			const result = await repository.update('non-existent-id', mockMemberUpdate)
+			const result = await repository.update(
+				'non-existent-id',
+				mockMemberUpdate,
+			)
 
 			expect(result).toBeUndefined()
 		})
@@ -190,7 +197,9 @@ describe('MemberDrizzleRepository', () => {
 
 	describe('delete', () => {
 		it('should delete a member successfully and return deletedId', async () => {
-			const mockReturning = vi.fn().mockResolvedValue([{ deletedId: mockMember._id }])
+			const mockReturning = vi
+				.fn()
+				.mockResolvedValue([{ deletedId: mockMember._id }])
 			const mockWhere = vi.fn().mockReturnValue({ returning: mockReturning })
 			const mockDelete = vi.fn().mockReturnValue({ where: mockWhere })
 
@@ -220,7 +229,9 @@ describe('MemberDrizzleRepository', () => {
 
 			repository = new MemberDrizzleRepository(mockDb)
 
-			await expect(repository.delete(mockMember._id)).rejects.toThrow('Delete failed')
+			await expect(repository.delete(mockMember._id)).rejects.toThrow(
+				'Delete failed',
+			)
 		})
 
 		it('should handle attempt to delete non-existent record', async () => {
@@ -292,7 +303,9 @@ describe('MemberDrizzleRepository', () => {
 
 			repository = new MemberDrizzleRepository(mockDb)
 
-			await expect(repository.findById(mockMember._id)).rejects.toThrow('Query failed')
+			await expect(repository.findById(mockMember._id)).rejects.toThrow(
+				'Query failed',
+			)
 		})
 	})
 
@@ -344,7 +357,9 @@ describe('MemberDrizzleRepository', () => {
 
 			repository = new MemberDrizzleRepository(mockDb)
 
-			await expect(repository.findByUserId(mockMember.userId)).rejects.toThrow('Query failed')
+			await expect(repository.findByUserId(mockMember.userId)).rejects.toThrow(
+				'Query failed',
+			)
 		})
 	})
 
@@ -396,7 +411,9 @@ describe('MemberDrizzleRepository', () => {
 
 			repository = new MemberDrizzleRepository(mockDb)
 
-			await expect(repository.findBySpaceId(mockMember.spaceId)).rejects.toThrow('Query failed')
+			await expect(
+				repository.findBySpaceId(mockMember.spaceId),
+			).rejects.toThrow('Query failed')
 		})
 
 		it('should return multiple members when found', async () => {

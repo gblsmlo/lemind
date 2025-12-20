@@ -9,7 +9,11 @@ import {
 	CommandItem,
 	CommandList,
 } from '@/components/ui/command'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@/components/ui/popover'
 import {
 	Select,
 	SelectContent,
@@ -34,7 +38,8 @@ import * as React from 'react'
 const SORT_SHORTCUT_KEY = 's'
 const REMOVE_SORT_SHORTCUTS = ['backspace', 'delete']
 
-interface DataTableSortListProps<TData> extends React.ComponentProps<typeof PopoverContent> {
+interface DataTableSortListProps<TData>
+	extends React.ComponentProps<typeof PopoverContent> {
 	table: Table<TData>
 	disabled?: boolean
 }
@@ -79,14 +84,19 @@ export function DataTableSortList<TData>({
 		const firstColumn = columns[0]
 		if (!firstColumn) return
 
-		onSortingChange((prevSorting) => [...prevSorting, { desc: false, id: firstColumn.id }])
+		onSortingChange((prevSorting) => [
+			...prevSorting,
+			{ desc: false, id: firstColumn.id },
+		])
 	}, [columns, onSortingChange])
 
 	const onSortUpdate = React.useCallback(
 		(sortId: string, updates: Partial<ColumnSort>) => {
 			onSortingChange((prevSorting) => {
 				if (!prevSorting) return prevSorting
-				return prevSorting.map((sort) => (sort.id === sortId ? { ...sort, ...updates } : sort))
+				return prevSorting.map((sort) =>
+					sort.id === sortId ? { ...sort, ...updates } : sort,
+				)
 			})
 		},
 		[onSortingChange],
@@ -94,7 +104,9 @@ export function DataTableSortList<TData>({
 
 	const onSortRemove = React.useCallback(
 		(sortId: string) => {
-			onSortingChange((prevSorting) => prevSorting.filter((item) => item.id !== sortId))
+			onSortingChange((prevSorting) =>
+				prevSorting.filter((item) => item.id !== sortId),
+			)
 		},
 		[onSortingChange],
 	)
@@ -109,7 +121,8 @@ export function DataTableSortList<TData>({
 			if (
 				event.target instanceof HTMLInputElement ||
 				event.target instanceof HTMLTextAreaElement ||
-				(event.target instanceof HTMLElement && event.target.contentEditable === 'true')
+				(event.target instanceof HTMLElement &&
+					event.target.contentEditable === 'true')
 			) {
 				return
 			}
@@ -130,7 +143,10 @@ export function DataTableSortList<TData>({
 
 	const onTriggerKeyDown = React.useCallback(
 		(event: React.KeyboardEvent<HTMLButtonElement>) => {
-			if (REMOVE_SORT_SHORTCUTS.includes(event.key.toLowerCase()) && sorting.length > 0) {
+			if (
+				REMOVE_SORT_SHORTCUTS.includes(event.key.toLowerCase()) &&
+				sorting.length > 0
+			) {
 				event.preventDefault()
 				onSortingReset()
 			}
@@ -139,7 +155,11 @@ export function DataTableSortList<TData>({
 	)
 
 	return (
-		<Sortable getItemValue={(item) => item.id} onValueChange={onSortingChange} value={sorting}>
+		<Sortable
+			getItemValue={(item) => item.id}
+			onValueChange={onSortingChange}
+			value={sorting}
+		>
 			<Popover onOpenChange={setOpen} open={open}>
 				<PopoverTrigger asChild>
 					<Button
@@ -172,7 +192,10 @@ export function DataTableSortList<TData>({
 							{sorting.length > 0 ? 'Sort by' : 'No sorting applied'}
 						</h4>
 						<p
-							className={cn('text-muted-foreground text-sm', sorting.length > 0 && 'sr-only')}
+							className={cn(
+								'text-muted-foreground text-sm',
+								sorting.length > 0 && 'sr-only',
+							)}
 							id={descriptionId}
 						>
 							{sorting.length > 0
@@ -182,7 +205,10 @@ export function DataTableSortList<TData>({
 					</div>
 					{sorting.length > 0 && (
 						<SortableContent asChild>
-							<div className="flex max-h-[300px] flex-col gap-2 overflow-y-auto p-1" role="list">
+							<div
+								className="flex max-h-[300px] flex-col gap-2 overflow-y-auto p-1"
+								role="list"
+							>
 								{sorting.map((sort) => (
 									<DataTableSortItem
 										columnLabels={columnLabels}
@@ -248,11 +274,15 @@ function DataTableSortItem({
 	const directionListboxId = `${sortItemId}-direction-listbox`
 
 	const [showFieldSelector, setShowFieldSelector] = React.useState(false)
-	const [showDirectionSelector, setShowDirectionSelector] = React.useState(false)
+	const [showDirectionSelector, setShowDirectionSelector] =
+		React.useState(false)
 
 	const onItemKeyDown = React.useCallback(
 		(event: React.KeyboardEvent<HTMLDivElement>) => {
-			if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+			if (
+				event.target instanceof HTMLInputElement ||
+				event.target instanceof HTMLTextAreaElement
+			) {
 				return
 			}
 
@@ -290,7 +320,10 @@ function DataTableSortItem({
 							<ChevronsUpDown className="opacity-50" />
 						</Button>
 					</PopoverTrigger>
-					<PopoverContent className="w-(--radix-popover-trigger-width) p-0" id={fieldListboxId}>
+					<PopoverContent
+						className="w-(--radix-popover-trigger-width) p-0"
+						id={fieldListboxId}
+					>
 						<Command>
 							<CommandInput placeholder="Search fields..." />
 							<CommandList>
@@ -318,10 +351,17 @@ function DataTableSortItem({
 					open={showDirectionSelector}
 					value={sort.desc ? 'desc' : 'asc'}
 				>
-					<SelectTrigger aria-controls={directionListboxId} className="w-24 rounded" size="sm">
+					<SelectTrigger
+						aria-controls={directionListboxId}
+						className="w-24 rounded"
+						size="sm"
+					>
 						<SelectValue />
 					</SelectTrigger>
-					<SelectContent className="min-w-(--radix-select-trigger-width)" id={directionListboxId}>
+					<SelectContent
+						className="min-w-(--radix-select-trigger-width)"
+						id={directionListboxId}
+					>
 						{dataTableConfig.sortOrders.map((order) => (
 							<SelectItem key={order.value} value={order.value}>
 								{order.label}
@@ -339,7 +379,11 @@ function DataTableSortItem({
 					<Trash2 />
 				</Button>
 				<SortableItemHandle asChild>
-					<Button className="size-8 shrink-0 rounded" isIcon={true} variant="outline">
+					<Button
+						className="size-8 shrink-0 rounded"
+						isIcon={true}
+						variant="outline"
+					>
 						<GripVertical />
 					</Button>
 				</SortableItemHandle>

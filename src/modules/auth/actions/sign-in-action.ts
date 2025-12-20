@@ -8,7 +8,9 @@ type Output = {
 	redirectTo: string
 }
 
-export const signInAction = async (formData: SignInFormData): Promise<Result<Output>> => {
+export const signInAction = async (
+	formData: SignInFormData,
+): Promise<Result<Output>> => {
 	const validated = signInSchema.safeParse(formData)
 
 	if (!validated.success) {

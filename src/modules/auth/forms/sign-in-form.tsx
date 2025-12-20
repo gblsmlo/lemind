@@ -63,7 +63,10 @@ export function SignInForm() {
 
 	return (
 		<Form {...form}>
-			<form className="flex flex-col gap-10" onSubmit={form.handleSubmit(signUpSubmit)}>
+			<form
+				className="flex flex-col gap-10"
+				onSubmit={form.handleSubmit(signUpSubmit)}
+			>
 				<div className="grid gap-6">
 					{form.formState.errors.root && (
 						<Alert variant="destructive">
@@ -77,7 +80,12 @@ export function SignInForm() {
 							<FormItem>
 								<FormLabel>Email</FormLabel>
 								<FormControl>
-									<Input autoComplete="email" type="email" {...field} disabled={isSubmitting} />
+									<Input
+										autoComplete="email"
+										type="email"
+										{...field}
+										disabled={isSubmitting}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -91,7 +99,10 @@ export function SignInForm() {
 								<FormLabel className="flex justify-between gap-1">
 									Senha
 									<span className="text-sm">
-										<Anchor className="font-normal" href="/auth/recovery-password">
+										<Anchor
+											className="font-normal"
+											href="/auth/recovery-password"
+										>
 											Esqueceu sua senha?
 										</Anchor>
 									</span>
@@ -109,7 +120,11 @@ export function SignInForm() {
 						)}
 					/>
 					<Button type="submit">
-						{isSubmitting ? <Loader2 className="size-4 animate-spin" /> : 'Entrar'}
+						{isSubmitting ? (
+							<Loader2 className="size-4 animate-spin" />
+						) : (
+							'Entrar'
+						)}
 					</Button>
 
 					<ProviderSeparetor />

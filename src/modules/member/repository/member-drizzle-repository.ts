@@ -18,7 +18,10 @@ export class MemberDrizzleRepository implements MemberRepository {
 			updatedAt: new Date(),
 		}
 
-		const [result] = await this.db.update(membersTable).set(update).where(eq(membersTable._id, id))
+		const [result] = await this.db
+			.update(membersTable)
+			.set(update)
+			.where(eq(membersTable._id, id))
 
 		return result
 	}
@@ -45,7 +48,10 @@ export class MemberDrizzleRepository implements MemberRepository {
 	}
 
 	async findByUserId(userId: string): Promise<Member[]> {
-		const results = await this.db.select().from(membersTable).where(eq(membersTable.userId, userId))
+		const results = await this.db
+			.select()
+			.from(membersTable)
+			.where(eq(membersTable.userId, userId))
 
 		return results
 	}

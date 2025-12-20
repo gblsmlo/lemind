@@ -10,7 +10,9 @@ type SignUpOutput = {
 
 const REDIRECT_TO = '/auth/login'
 
-export const signUpAction = async (formData: SignUpFormData): Promise<Result<SignUpOutput>> => {
+export const signUpAction = async (
+	formData: SignUpFormData,
+): Promise<Result<SignUpOutput>> => {
 	const validated = signUpSchema.safeParse(formData)
 
 	if (!validated.success) {

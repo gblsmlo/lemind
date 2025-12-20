@@ -28,5 +28,9 @@ export function MainContent({
 	size?: 'default' | 'sm' | 'lg' | 'xl' | '2xl'
 	className?: string
 }) {
-	return <main className={cn(MainContentVariants({ size }), className)}>{children}</main>
+	return (
+		<main className={cn(MainContentVariants({ size }), className)}>
+			{children}
+		</main>
+	)
 }

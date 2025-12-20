@@ -34,7 +34,10 @@ export function DataTableToolbar<TData>({
 	return (
 		<div
 			aria-orientation="horizontal"
-			className={cn('flex w-full items-start justify-between gap-2 p-1', className)}
+			className={cn(
+				'flex w-full items-start justify-between gap-2 p-1',
+				className,
+			)}
 			role="toolbar"
 			{...props}
 		>
@@ -43,7 +46,12 @@ export function DataTableToolbar<TData>({
 					<DataTableToolbarFilter column={column} key={column.id} />
 				))}
 				{isFiltered && (
-					<Button aria-label="Reset filters" onClick={onReset} size="sm" variant="outline">
+					<Button
+						aria-label="Reset filters"
+						onClick={onReset}
+						size="sm"
+						variant="outline"
+					>
 						<X />
 						Reset
 					</Button>
@@ -60,7 +68,9 @@ interface DataTableToolbarFilterProps<TData> {
 	column: Column<TData>
 }
 
-function DataTableToolbarFilter<TData>({ column }: DataTableToolbarFilterProps<TData>) {
+function DataTableToolbarFilter<TData>({
+	column,
+}: DataTableToolbarFilterProps<TData>) {
 	{
 		const columnMeta = column.columnDef.meta
 
@@ -99,7 +109,12 @@ function DataTableToolbarFilter<TData>({ column }: DataTableToolbarFilterProps<T
 					)
 
 				case 'range':
-					return <DataTableSliderFilter column={column} title={columnMeta.label ?? column.id} />
+					return (
+						<DataTableSliderFilter
+							column={column}
+							title={columnMeta.label ?? column.id}
+						/>
+					)
 
 				case 'date':
 				case 'dateRange':

@@ -19,7 +19,12 @@ export function AuthLayout({ children }: { children: ReactNode }) {
 					</div>
 				</div>
 				<div className="relative hidden overflow-hidden rounded-2xl bg-foreground lg:col-span-2 lg:m-6 lg:block">
-					<Image alt="Login" className="object-cover opacity-70" fill src="/auth.jpg" />
+					<Image
+						alt="Login"
+						className="object-cover opacity-70"
+						fill
+						src="/auth.jpg"
+					/>
 				</div>
 			</div>
 		</AuthGuard>

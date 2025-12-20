@@ -2,9 +2,17 @@
 
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
+import {
+	ChevronDownIcon,
+	ChevronLeftIcon,
+	ChevronRightIcon,
+} from 'lucide-react'
 import * as React from 'react'
-import { type DayButton, DayPicker, getDefaultClassNames } from 'react-day-picker'
+import {
+	type DayButton,
+	DayPicker,
+	getDefaultClassNames,
+} from 'react-day-picker'
 
 function Calendar({
 	className,
@@ -54,8 +62,14 @@ function Calendar({
 						: '[&:first-child[data-selected=true]_button]:rounded-l-md',
 					defaultClassNames.day,
 				),
-				disabled: cn('text-muted-foreground opacity-50', defaultClassNames.disabled),
-				dropdown: cn('absolute bg-popover inset-0 opacity-0', defaultClassNames.dropdown),
+				disabled: cn(
+					'text-muted-foreground opacity-50',
+					defaultClassNames.disabled,
+				),
+				dropdown: cn(
+					'absolute bg-popover inset-0 opacity-0',
+					defaultClassNames.dropdown,
+				),
 				dropdown_root: cn(
 					'relative has-focus:border-ring border border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] rounded-md',
 					defaultClassNames.dropdown_root,
@@ -70,7 +84,10 @@ function Calendar({
 					'flex items-center justify-center h-(--cell-size) w-full px-(--cell-size)',
 					defaultClassNames.month_caption,
 				),
-				months: cn('flex gap-4 flex-col md:flex-row relative', defaultClassNames.months),
+				months: cn(
+					'flex gap-4 flex-col md:flex-row relative',
+					defaultClassNames.months,
+				),
 				nav: cn(
 					'flex items-center gap-1 w-full absolute top-0 inset-x-0 justify-between',
 					defaultClassNames.nav,
@@ -81,7 +98,10 @@ function Calendar({
 				),
 				range_end: cn('rounded-r-md bg-accent', defaultClassNames.range_end),
 				range_middle: cn('rounded-none', defaultClassNames.range_middle),
-				range_start: cn('rounded-l-md bg-accent', defaultClassNames.range_start),
+				range_start: cn(
+					'rounded-l-md bg-accent',
+					defaultClassNames.range_start,
+				),
 				root: cn('w-fit', defaultClassNames.root),
 				table: 'w-full border-collapse',
 				today: cn(
@@ -93,7 +113,10 @@ function Calendar({
 					'text-[0.8rem] select-none text-muted-foreground',
 					defaultClassNames.week_number,
 				),
-				week_number_header: cn('select-none w-(--cell-size)', defaultClassNames.week_number_header),
+				week_number_header: cn(
+					'select-none w-(--cell-size)',
+					defaultClassNames.week_number_header,
+				),
 				weekday: cn(
 					'text-muted-foreground rounded-md flex-1 font-normal text-[0.8rem] select-none',
 					defaultClassNames.weekday,
@@ -104,18 +127,34 @@ function Calendar({
 			components={{
 				Chevron: ({ className, orientation, ...props }) => {
 					if (orientation === 'left') {
-						return <ChevronLeftIcon className={cn('size-4', className)} {...props} />
+						return (
+							<ChevronLeftIcon className={cn('size-4', className)} {...props} />
+						)
 					}
 
 					if (orientation === 'right') {
-						return <ChevronRightIcon className={cn('size-4', className)} {...props} />
+						return (
+							<ChevronRightIcon
+								className={cn('size-4', className)}
+								{...props}
+							/>
+						)
 					}
 
-					return <ChevronDownIcon className={cn('size-4', className)} {...props} />
+					return (
+						<ChevronDownIcon className={cn('size-4', className)} {...props} />
+					)
 				},
 				DayButton: CalendarDayButton,
 				Root: ({ className, rootRef, ...props }) => {
-					return <div className={cn(className)} data-slot="calendar" ref={rootRef} {...props} />
+					return (
+						<div
+							className={cn(className)}
+							data-slot="calendar"
+							ref={rootRef}
+							{...props}
+						/>
+					)
 				},
 				WeekNumber: ({ children, ...props }) => {
 					return (
@@ -129,7 +168,8 @@ function Calendar({
 				...components,
 			}}
 			formatters={{
-				formatMonthDropdown: (date) => date.toLocaleString('default', { month: 'short' }),
+				formatMonthDropdown: (date) =>
+					date.toLocaleString('default', { month: 'short' }),
 				...formatters,
 			}}
 			showOutsideDays={showOutsideDays}

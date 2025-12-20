@@ -18,7 +18,10 @@ import { Activity, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { recoveryPasswordAction } from '../actions/recovery-password-action'
-import { type RecoveryPasswordFormData, recoveryPasswordSchema } from '../schemas'
+import {
+	type RecoveryPasswordFormData,
+	recoveryPasswordSchema,
+} from '../schemas'
 
 export function RecoveryPasswordForm() {
 	const [isPending, startTransition] = useTransition()
@@ -57,11 +60,16 @@ export function RecoveryPasswordForm() {
 
 	return (
 		<Form {...form}>
-			<form className="flex flex-col gap-10" onSubmit={form.handleSubmit(onSubmit)}>
+			<form
+				className="flex flex-col gap-10"
+				onSubmit={form.handleSubmit(onSubmit)}
+			>
 				<div className="grid gap-6">
 					{form.formState.errors.root && (
 						<Alert variant="destructive">
-							<AlertDescription>{form.formState.errors.root.message}</AlertDescription>
+							<AlertDescription>
+								{form.formState.errors.root.message}
+							</AlertDescription>
 						</Alert>
 					)}
 					<FormField
@@ -71,7 +79,12 @@ export function RecoveryPasswordForm() {
 							<FormItem>
 								<FormLabel>Email</FormLabel>
 								<FormControl>
-									<Input autoComplete="email" type="email" {...field} disabled={isSubmitPending} />
+									<Input
+										autoComplete="email"
+										type="email"
+										{...field}
+										disabled={isSubmitPending}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>

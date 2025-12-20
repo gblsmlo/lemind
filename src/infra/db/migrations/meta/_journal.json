@@ -1,27 +1,41 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1765842492848,
-      "tag": "0000_cute_gabe_jones",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1765843894793,
-      "tag": "0001_green_human_fly",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1765844081917,
-      "tag": "0002_bouncy_dreadnoughts",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "7",
+			"when": 1765842492848,
+			"tag": "0000_cute_gabe_jones",
+			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1765843894793,
+			"tag": "0001_green_human_fly",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1765844081917,
+			"tag": "0002_bouncy_dreadnoughts",
+			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "7",
+			"when": 1766089338045,
+			"tag": "0003_oval_gladiator",
+			"breakpoints": true
+		},
+		{
+			"idx": 4,
+			"version": "7",
+			"when": 1766180554738,
+			"tag": "0004_dry_umar",
+			"breakpoints": true
+		}
+	]
 }

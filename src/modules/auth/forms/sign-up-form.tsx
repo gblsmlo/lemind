@@ -63,11 +63,16 @@ export function SignUpForm() {
 
 	return (
 		<Form {...form}>
-			<form className="flex flex-col gap-10" onSubmit={form.handleSubmit(signUpSubmit)}>
+			<form
+				className="flex flex-col gap-10"
+				onSubmit={form.handleSubmit(signUpSubmit)}
+			>
 				<div className="grid gap-6">
 					{form.formState.errors.root && (
 						<Alert variant="destructive">
-							<AlertDescription>{form.formState.errors.root.message}</AlertDescription>
+							<AlertDescription>
+								{form.formState.errors.root.message}
+							</AlertDescription>
 						</Alert>
 					)}
 					<FormField
@@ -77,7 +82,12 @@ export function SignUpForm() {
 							<FormItem>
 								<FormLabel>Name</FormLabel>
 								<FormControl>
-									<Input autoComplete="name" type="text" {...field} disabled={isSubmitPending} />
+									<Input
+										autoComplete="name"
+										type="text"
+										{...field}
+										disabled={isSubmitPending}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -90,7 +100,12 @@ export function SignUpForm() {
 							<FormItem>
 								<FormLabel>Email</FormLabel>
 								<FormControl>
-									<Input autoComplete="email" type="email" {...field} disabled={isSubmitPending} />
+									<Input
+										autoComplete="email"
+										type="email"
+										{...field}
+										disabled={isSubmitPending}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>

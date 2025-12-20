@@ -1,5 +1,8 @@
 import { dataTableConfig } from '@/config/data-table'
-import type { ExtendedColumnFilter, ExtendedColumnSort } from '@/types/data-table'
+import type {
+	ExtendedColumnFilter,
+	ExtendedColumnSort,
+} from '@/types/data-table'
 import { createParser } from 'nuqs/server'
 import { z } from 'zod'
 
@@ -8,13 +11,22 @@ const sortingItemSchema = z.object({
 	id: z.string(),
 })
 
-export const getSortingStateParser = <TData>(columnIds?: string[] | Set<string>) => {
-	const validKeys = columnIds ? (columnIds instanceof Set ? columnIds : new Set(columnIds)) : null
+export const getSortingStateParser = <TData>(
+	columnIds?: string[] | Set<string>,
+) => {
+	const validKeys = columnIds
+		? columnIds instanceof Set
+			? columnIds
+			: new Set(columnIds)
+		: null
 
 	return createParser({
 		eq: (a, b) =>
 			a.length === b.length &&
-			a.every((item, index) => item.id === b[index]?.id && item.desc === b[index]?.desc),
+			a.every(
+				(item, index) =>
+					item.id === b[index]?.id && item.desc === b[index]?.desc,
+			),
 		parse: (value) => {
 			try {
 				const parsed = JSON.parse(value)
@@ -45,8 +57,14 @@ const filterItemSchema = z.object({
 
 export type FilterItemSchema = z.infer<typeof filterItemSchema>
 
-export const getFiltersStateParser = <TData>(columnIds?: string[] | Set<string>) => {
-	const validKeys = columnIds ? (columnIds instanceof Set ? columnIds : new Set(columnIds)) : null
+export const getFiltersStateParser = <TData>(
+	columnIds?: string[] | Set<string>,
+) => {
+	const validKeys = columnIds
+		? columnIds instanceof Set
+			? columnIds
+			: new Set(columnIds)
+		: null
 
 	return createParser({
 		eq: (a, b) =>
