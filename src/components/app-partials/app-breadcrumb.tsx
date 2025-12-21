@@ -18,6 +18,33 @@ type BreadcrumbRoute = {
 	link: string | null
 }
 
+const SEGMENT_LABELS: Record<string, string> = {
+	new: 'Novo',
+	edit: 'Editar',
+	create: 'Criar',
+	view: 'Visualizar',
+	settings: 'Configurações',
+}
+
+const UUID_REGEX =
+	/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+function isUUID(segment: string): boolean {
+	return UUID_REGEX.test(segment)
+}
+
+function getSegmentLabel(segment: string): string {
+	if (isUUID(segment)) {
+		return 'Detalhes'
+	}
+
+	if (SEGMENT_LABELS[segment.toLowerCase()]) {
+		return SEGMENT_LABELS[segment.toLowerCase()]
+	}
+
+	return segment.charAt(0).toUpperCase() + segment.slice(1)
+}
+
 type AppBreadcrumbProps = {
 	routes: BreadcrumbRoute[]
 }
@@ -26,7 +53,7 @@ function buildItemsFromSegments(pathname: string) {
 	const segments = pathname.split('/').filter(Boolean)
 	const items: BreadcrumbRoute[] = []
 
-	segments.forEach((_, index) => {
+	segments.forEach((segment, index) => {
 		const CURRENT_INDEX = index + 1
 		const currentPath = `/${segments.slice(0, CURRENT_INDEX).join('/')}`
 		const isLastSegment = segments.length === CURRENT_INDEX
@@ -35,10 +62,23 @@ function buildItemsFromSegments(pathname: string) {
 
 		if (matchedRoute) {
 			items.push({
-				icon: matchedRoute.icon,
 				label: matchedRoute.label,
 				link: !isLastSegment ? matchedRoute.link : null,
 			})
+		} else {
+			const isUuid = isUUID(segment)
+			const isSpecialSegment = Object.keys(SEGMENT_LABELS).includes(
+				segment.toLowerCase(),
+			)
+
+			if (!isUuid) {
+				if (isSpecialSegment || isLastSegment) {
+					items.push({
+						label: getSegmentLabel(segment),
+						link: !isLastSegment ? currentPath : null,
+					})
+				}
+			}
 		}
 	})
 
@@ -63,7 +103,6 @@ export function AppBreadcrumb({ routes }: AppBreadcrumbProps) {
 			<BreadcrumbList>
 				{items.map((item, index) => {
 					const isLastItem = index === items.length - 1
-					const Icon = item.icon
 
 					return isLastItem ? (
 						<BreadcrumbItem key={toSlug(item.label)}>

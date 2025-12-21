@@ -1,6 +1,7 @@
 import {
 	Briefcase,
 	Bug,
+	CalendarCheck,
 	Contact,
 	FileText,
 	Folder,
@@ -34,14 +35,19 @@ export const mainRoutes: Route[] = [
 		link: '/dashboard',
 	},
 	{
-		icon: PieChart,
-		label: 'Analytics',
-		link: '/dashboard/analytics',
+		icon: CalendarCheck,
+		label: 'Tarefas',
+		link: '/dashboard/tasks',
 	},
 	{
 		icon: Folder,
-		label: 'Projects',
-		link: '/dashboard/projects',
+		label: 'Processos',
+		link: '/dashboard/processes',
+	},
+	{
+		icon: PieChart,
+		label: 'Analytics',
+		link: '/dashboard/analytics',
 	},
 	{
 		icon: Users,
@@ -52,19 +58,19 @@ export const mainRoutes: Route[] = [
 
 export const crmRoutes: Route[] = [
 	{
+		icon: Briefcase,
+		label: 'Contratos',
+		link: '/dashboard/deals',
+	},
+	{
 		icon: Contact,
-		label: 'Clients',
+		label: 'Clientes',
 		link: '/dashboard/clients',
 	},
 	{
 		icon: Contact,
-		label: 'Contacts',
+		label: 'Contatos',
 		link: '/dashboard/contacts',
-	},
-	{
-		icon: Briefcase,
-		label: 'Deals',
-		link: '/dashboard/deals',
 	},
 ]
 
