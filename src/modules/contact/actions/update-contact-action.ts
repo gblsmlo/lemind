@@ -26,7 +26,7 @@ const action = async (
 	}
 
 	try {
-		const { row } = await contactRepository.update(id, input)
+		const { row } = await contactRepository.update(id, validated.data)
 
 		if (!row) {
 			return failure({

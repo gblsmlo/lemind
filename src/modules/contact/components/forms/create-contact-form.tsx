@@ -33,6 +33,7 @@ export function CreateContactForm() {
 			email: '',
 			phone: '',
 			notes: '',
+			type: 'NEW',
 		},
 	})
 
@@ -67,6 +68,7 @@ export function CreateContactForm() {
 				phone: formData.phone,
 				notes: formData.notes,
 				avatar: avatarUrl,
+				type: formData.type,
 				spaceId: DEFAULT_SPACE_ID,
 			})
 

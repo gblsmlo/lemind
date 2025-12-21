@@ -34,6 +34,7 @@ export function UpdateContactForm({ contact }: UpdateContactFormProps) {
 			email: contact.email,
 			phone: contact.phone ?? '',
 			notes: contact.notes ?? '',
+			type: contact.type,
 		},
 	})
 
@@ -73,6 +74,7 @@ export function UpdateContactForm({ contact }: UpdateContactFormProps) {
 				if (dirtyFields.email) updatePayload.email = formData.email
 				if (dirtyFields.phone) updatePayload.phone = formData.phone
 				if (dirtyFields.notes) updatePayload.notes = formData.notes
+				if (dirtyFields.type) updatePayload.type = formData.type
 
 				if (Object.keys(updatePayload).length === 0) {
 					toast.info('Nenhuma alteração detectada.')

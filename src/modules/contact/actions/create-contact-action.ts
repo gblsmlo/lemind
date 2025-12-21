@@ -22,7 +22,7 @@ export const createContactAction = async (
 		})
 	}
 
-	const { name, email, phone, notes, avatar, spaceId } = validated.data
+	const { name, email, phone, notes, avatar, type, spaceId } = validated.data
 
 	try {
 		const result = await contactRepository.create({
@@ -31,6 +31,7 @@ export const createContactAction = async (
 			phone,
 			notes,
 			avatar,
+			type,
 			spaceId, // TODO: Get from context/session
 		})
 

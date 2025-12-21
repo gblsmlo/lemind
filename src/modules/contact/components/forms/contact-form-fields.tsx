@@ -9,8 +9,16 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import type { FieldValues, Path, UseFormReturn } from 'react-hook-form'
+import { contactStatusTypes } from '../../types'
 
 interface ContactFormFieldsProps<T extends FieldValues> {
 	form: UseFormReturn<T>
@@ -107,6 +115,34 @@ export function ContactFormFields<T extends FieldValues>({
 						<FormControl>
 							<Textarea placeholder="" rows={4} {...field} />
 						</FormControl>
+						<FormMessage />
+					</FormItem>
+				)}
+			/>
+			<FormField
+				control={form.control}
+				name={'type' as Path<T>}
+				render={({ field }) => (
+					<FormItem>
+						<FormLabel>Status</FormLabel>
+						<Select
+							disabled={isDisabled}
+							onValueChange={field.onChange}
+							value={field.value as string}
+						>
+							<FormControl>
+								<SelectTrigger>
+									<SelectValue placeholder="Selecione o status" />
+								</SelectTrigger>
+							</FormControl>
+							<SelectContent>
+								{contactStatusTypes.map((status) => (
+									<SelectItem key={status} value={status}>
+										{status}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
 						<FormMessage />
 					</FormItem>
 				)}

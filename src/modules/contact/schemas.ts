@@ -5,6 +5,7 @@ import {
 	createUpdateSchema,
 } from 'drizzle-zod'
 import z from 'zod'
+import { contactStatusTypes } from './types'
 
 export const contactSelectSchema = createSelectSchema(contactsTable)
 export const contactInsertSchema = createInsertSchema(contactsTable)
@@ -27,6 +28,7 @@ export const contactInsertFormSchema = z.object({
 	email: z.email('Insira um email válido.'),
 	phone: z.string().optional(),
 	notes: z.string().optional(),
+	type: z.enum(contactStatusTypes).default('NEW'),
 })
 
 export const contacUpdateFormSchema = z.object({
@@ -40,4 +42,5 @@ export const contacUpdateFormSchema = z.object({
 	email: z.email('Insira um email válido.'),
 	phone: z.string().optional(),
 	notes: z.string().optional(),
+	type: z.enum(contactStatusTypes).optional(),
 })
