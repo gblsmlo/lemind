@@ -1,3 +1,5 @@
+'use server'
+
 import { failure, type Result, success } from '@/shared/errors'
 import { PostgrestError } from '@supabase/supabase-js'
 import { cache } from 'react'
@@ -8,13 +10,6 @@ type Output = {
 }
 
 const action = async (id: string): Promise<Result<Output>> => {
-	if (!id || typeof id !== 'string') {
-		return failure({
-			message: 'Contact ID is required',
-			type: 'VALIDATION_ERROR',
-		})
-	}
-
 	try {
 		const result = await contactRepository.delete(id)
 
