@@ -4,19 +4,23 @@ import {
 	PageHeader,
 	PageTitle,
 } from '@/components/ui/page-header'
-import { ContactView } from '@/modules/contact/components/contact-view'
+import { ContactView } from '@/modules/contact/components'
 import { ContactViewSkeleton } from '@/modules/contact/components/contact-view-skeleton'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {
 	title: 'Contato',
-	description: 'Criar um novo contato',
+	description: 'Edite as informações do contato',
 }
 
-export default async function Page() {
+type Params = Promise<{ contactId: string }>
+
+export default async function Page({ params }: { params: Params }) {
 	const title = String(metadata.title)
 	const description = String(metadata.description)
+
+	const { contactId } = await params
 
 	return (
 		<MainContent size="sm">
@@ -24,8 +28,9 @@ export default async function Page() {
 				<PageTitle>{title}</PageTitle>
 				<PageDescription>{description}</PageDescription>
 			</PageHeader>
+
 			<Suspense fallback={<ContactViewSkeleton />}>
-				<ContactView />
+				<ContactView contactId={contactId} />
 			</Suspense>
 		</MainContent>
 	)

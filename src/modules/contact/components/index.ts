@@ -1,4 +1,6 @@
-export * from './contact-form'
 export * from './contact-view'
 export * from './data-table-contact'
 export * from './data-table-contact-view'
+export * from './forms/contact-form-fields'
+export * from './forms/create-contact-form'
+export * from './forms/update-contact-form'

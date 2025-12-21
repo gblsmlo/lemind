@@ -1,40 +1,38 @@
 import { failure, type Result, success } from '@/shared/errors'
 import { makeSupabaseClient } from './factories-client'
 
-export type UploadAvatarOptions = {
+type Options = {
 	fileName?: string
-	bucket?: string
-	folder?: string
+	bucketName?: string
+	path?: string
 }
 
-export type UploadResult = {
+type Output = {
 	url?: string
 	path?: string
 	error?: string
 }
 
-/**
- * Uploads an avatar image to Supabase Storage
- * @param file - The image file to upload
- * @param options - Upload options (spaceId required, contactId optional)
- * @returns Upload result with public URL or error
- */
-export async function uploadAvatar(
+export async function uploadToBucket(
 	file: File,
-	options: UploadAvatarOptions,
-): Promise<Result<UploadResult>> {
-	const { fileName = crypto.randomUUID(), bucket = 'images', folder } = options
+	options: Options,
+): Promise<Result<Output>> {
+	const {
+		fileName = crypto.randomUUID(),
+		bucketName = 'images',
+		path,
+	} = options
 
 	try {
 		const supabase = makeSupabaseClient()
 
 		const fileExt = file.name.split('.').pop()
-		const filePath = options.folder
-			? `${folder}/${fileName}.${fileExt}`
+		const filePath = options.path
+			? `${path}/${fileName}.${fileExt}`
 			: `${fileName}.${fileExt}`
 
 		const { error } = await supabase.storage
-			.from(bucket)
+			.from(bucketName)
 			.upload(filePath, file, {
 				cacheControl: '3600',
 				upsert: true,
@@ -53,7 +51,7 @@ export async function uploadAvatar(
 
 		const {
 			data: { publicUrl },
-		} = supabase.storage.from(bucket).getPublicUrl(filePath)
+		} = supabase.storage.from(bucketName).getPublicUrl(filePath)
 
 		return success({
 			url: publicUrl,

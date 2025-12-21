@@ -14,20 +14,23 @@ import { DataTableProductsRowActions } from './row-actions'
 export const contactColumns: ColumnDef<Contact>[] = [
 	{
 		accessorKey: 'name',
-		cell: ({ row }) => (
-			<div className="flex items-center gap-2">
-				<Avatar>
-					<AvatarImage
-						alt={row.getValue('name')}
-						src={row.getValue('avatar')}
-					/>
-					<AvatarFallback>{row.getValue('name')}</AvatarFallback>
-				</Avatar>
-				<Text className="font-medium" size="sm">
-					{row.getValue('name')}
-				</Text>
-			</div>
-		),
+		cell: ({ row }) => {
+			console.log(row.getValue('avatar'))
+			return (
+				<div className="flex items-center gap-2">
+					<Avatar>
+						<AvatarImage
+							alt={row.getValue('name')}
+							src={row.getValue('avatar')}
+						/>
+						<AvatarFallback>{row.getValue('name')}</AvatarFallback>
+					</Avatar>
+					<Text className="font-medium" size="sm">
+						{row.getValue('name')}
+					</Text>
+				</div>
+			)
+		},
 		enableColumnFilter: true,
 		enableSorting: true,
 		header: ({ column }) => (
@@ -52,6 +55,9 @@ export const contactColumns: ColumnDef<Contact>[] = [
 		header: ({ column }) => (
 			<DataTableColumnHeader column={column} label="Email" />
 		),
+		meta: {
+			label: 'Email',
+		},
 	},
 	{
 		accessorKey: 'phone',
@@ -64,44 +70,12 @@ export const contactColumns: ColumnDef<Contact>[] = [
 		enableColumnFilter: true,
 		enableSorting: true,
 		header: ({ column }) => (
-			<DataTableColumnHeader column={column} label="Phone" />
+			<DataTableColumnHeader column={column} label="Telefone" />
 		),
+		meta: {
+			label: 'Telefone',
+		},
 	},
-	// {
-	// 	accessorKey: 'description',
-	// 	cell: ({ row }) => (
-	// 		<div className="max-w-[300px] truncate text-muted-foreground">
-	// 			{row.getValue('description')}
-	// 		</div>
-	// 	),
-	// 	enableSorting: true,
-	// 	header: ({ column }) => (
-	// 		<DataTableColumnHeader column={column} label="Description" />
-	// 	),
-	// 	meta: {
-	// 		label: 'Description',
-	// 		placeholder: 'Filter by description...',
-	// 		variant: 'text',
-	// 	},
-	// },
-	// {
-	// 	accessorKey: 'priceId',
-	// 	cell: ({ row }) => {
-	// 		const priceId = row.getValue('priceId') as string | null
-	// 		return priceId ? (
-	// 			<Badge variant="secondary">{priceId}</Badge>
-	// 		) : (
-	// 			<Badge variant="secondary">Free</Badge>
-	// 		)
-	// 	},
-	// 	enableSorting: true,
-	// 	header: ({ column }) => (
-	// 		<DataTableColumnHeader column={column} label="Price ID" />
-	// 	),
-	// 	meta: {
-	// 		label: 'Price ID',
-	// 	},
-	// },
 	{
 		accessorKey: 'createdAt',
 		cell: ({ row }) => {
@@ -110,30 +84,10 @@ export const contactColumns: ColumnDef<Contact>[] = [
 		},
 		enableSorting: true,
 		header: ({ column }) => (
-			<DataTableColumnHeader column={column} label="Created At" />
+			<DataTableColumnHeader column={column} label="Crieado em" />
 		),
 		meta: {
-			label: 'Created At',
-		},
-	},
-	{
-		accessorKey: 'updatedAt',
-		cell: ({ row }) => {
-			const date = row.getValue('updatedAt') as Date
-			return (
-				<div className="text-muted-foreground text-sm">
-					{format(date, 'MMM dd, yyyy')}
-				</div>
-			)
-		},
-		enableSorting: true,
-		header: ({ column }) => (
-			<DataTableColumnHeader column={column} label="Updated At" />
-		),
-		meta: {
-			label: 'Updated At',
-			placeholder: 'Filter by date...',
-			variant: 'date',
+			label: 'Criado em',
 		},
 	},
 	{
@@ -141,11 +95,10 @@ export const contactColumns: ColumnDef<Contact>[] = [
 		cell: ({ row }) => {
 			return <DataTableProductsRowActions row={row} />
 		},
-		enableColumnFilter: false,
-		enableSorting: false,
 		header: ({ column }) => (
-			<DataTableColumnHeader column={column} label="Actions" />
+			<DataTableColumnHeader column={column} label="Ações" />
 		),
+		enableSorting: false,
 		size: 48,
 	},
 ]

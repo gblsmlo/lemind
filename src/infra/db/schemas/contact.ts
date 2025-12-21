@@ -7,7 +7,7 @@ export const contactsTable = pgTable('contacts', {
 	id: uuid().defaultRandom().primaryKey(),
 	avatar: text('avatar_url'),
 	name: text().notNull(),
-	email: text(),
+	email: text().notNull(),
 	phone: text(),
 	notes: text(),
 	spaceId: uuid('space_id')

@@ -15,13 +15,6 @@ const action = async (
 	id: string,
 	input: ContactUpdate,
 ): Promise<Result<Output>> => {
-	if (!id || typeof id !== 'string') {
-		return failure({
-			message: 'Contact ID is required',
-			type: 'VALIDATION_ERROR',
-		})
-	}
-
 	const validated = contactUpdateSchema.safeParse(input)
 
 	if (!validated.success) {

@@ -1,8 +1,8 @@
 'use server'
 
 import { failure, type Result, success } from '@/shared/errors'
+import { sleep } from '@/shared/utils/sleep'
 import { PostgrestError } from '@supabase/supabase-js'
-import { cache } from 'react'
 import { contactRepository } from '../repository/contact-drizzle-repository'
 import type { Contact } from '../types'
 
@@ -10,13 +10,10 @@ type Output = {
 	row: Contact | null
 }
 
-const action = async (id: string): Promise<Result<Output>> => {
-	if (!id || typeof id !== 'string') {
-		return failure({
-			message: 'Contact ID is required',
-			type: 'VALIDATION_ERROR',
-		})
-	}
+export const findContactByIdAction = async (
+	id: string,
+): Promise<Result<Output>> => {
+	await sleep(5000)
 
 	try {
 		const { row } = await contactRepository.findById(id)
@@ -55,5 +52,3 @@ const action = async (id: string): Promise<Result<Output>> => {
 		})
 	}
 }
-
-export const findContactByIdAction = cache(action)

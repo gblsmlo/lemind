@@ -1,8 +1,10 @@
 import type z from 'zod'
 import type {
+	contactInsertFormSchema,
 	contactInsertSchema,
 	contactSelectSchema,
 	contactUpdateSchema,
+	contacUpdateFormSchema,
 	findContactsInput,
 } from './schemas'
 
@@ -28,12 +30,11 @@ export type Contact = z.infer<typeof contactSelectSchema>
 export type ContactInsert = z.infer<typeof contactInsertSchema>
 export type ContactUpdate = z.infer<typeof contactUpdateSchema>
 
-export type FindContactsInput = z.infer<typeof findContactsInput>
+export type ContactFormData = z.infer<typeof contactInsertFormSchema>
+export type ContactInsertFormData = z.infer<typeof contactInsertFormSchema>
+export type ContactUpdateFormData = z.infer<typeof contacUpdateFormSchema>
 
-export type FindContactsOutput = {
-	rows: Contact[] | null
-	total: number
-}
+export type FindContactsInput = z.infer<typeof findContactsInput>
 
 export type EntityRowOutput<T> = {
 	row: T | null
@@ -42,16 +43,4 @@ export type EntityRowOutput<T> = {
 export type EntityRowsOutput<T> = {
 	rows: Array<T> | null
 	total: number
-}
-
-export type FindContactOutput = {
-	row: Contact | null
-}
-
-export type FindBySpaceIdOutput = {
-	rows: Contact[] | null
-}
-
-export type FindDeletedOutput = {
-	rows: Contact[] | null
 }

@@ -21,11 +21,13 @@ export async function DataTableContact() {
 	if (isSuccess(result)) {
 		const { rows, total } = result.data
 
+		console.log(rows)
+
 		return (
 			<DataTableView
 				actionToCreate={
 					<DataTableCreateAction linkTo="contacts/new">
-						Create contact
+						Novo contato
 					</DataTableCreateAction>
 				}
 				columns={contactColumns}

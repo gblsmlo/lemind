@@ -2,17 +2,17 @@
 
 import { failure, type Result, success } from '@/shared/errors'
 import { contactRepository } from '../repository/contact-drizzle-repository'
-import { type CreateContactInput, createContactInput } from '../schemas'
-import type { Contact } from '../types'
+import { contactInsertSchema } from '../schemas'
+import type { Contact, ContactInsert } from '../types'
 
 type Output = {
 	row: Contact
 }
 
 export const createContactAction = async (
-	data: CreateContactInput,
+	insert: ContactInsert,
 ): Promise<Result<Output>> => {
-	const validated = createContactInput.safeParse(data)
+	const validated = contactInsertSchema.safeParse(insert)
 
 	if (!validated.success) {
 		return failure({
@@ -22,7 +22,7 @@ export const createContactAction = async (
 		})
 	}
 
-	const { name, email, phone, notes, avatarUrl } = validated.data
+	const { name, email, phone, notes, avatar, spaceId } = validated.data
 
 	try {
 		const result = await contactRepository.create({
@@ -30,8 +30,8 @@ export const createContactAction = async (
 			email,
 			phone,
 			notes,
-			avatar: avatarUrl ?? null,
-			spaceId: 'a069aabe-abdd-4b03-9c11-84437f7d1384', // TODO: Get from context/session
+			avatar,
+			spaceId, // TODO: Get from context/session
 		})
 
 		if (!result.row) {

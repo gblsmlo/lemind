@@ -14,6 +14,7 @@ import {
 import type { Row } from '@tanstack/react-table'
 import { Button } from '@tc96/ui-react'
 import { EllipsisIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import type { Contact } from '../types'
 
 export function DataTableProductsRowActions({
@@ -21,6 +22,10 @@ export function DataTableProductsRowActions({
 }: {
 	row: Row<Contact>
 }) {
+	const router = useRouter()
+
+	const contactId = _row.original.id
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -37,13 +42,11 @@ export function DataTableProductsRowActions({
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
 				<DropdownMenuGroup>
-					<DropdownMenuItem>
+					<DropdownMenuItem
+						onClick={() => router.push(`/dashboard/contacts/${contactId}/edit`)}
+					>
 						<span>Edit</span>
 						<DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
-					</DropdownMenuItem>
-					<DropdownMenuItem>
-						<span>Duplicate</span>
-						<DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
