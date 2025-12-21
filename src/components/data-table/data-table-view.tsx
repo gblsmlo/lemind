@@ -11,6 +11,7 @@ interface DataTableViewProps<TData, TValue> {
 	pageCount?: number
 	getRowId?: (row: TData) => string
 	actionToCreate?: React.ReactNode
+	onRowClick?: (row: TData) => void
 }
 
 export function DataTableView<TData, TValue>({
@@ -19,6 +20,7 @@ export function DataTableView<TData, TValue>({
 	pageCount = 1,
 	actionToCreate,
 	getRowId,
+	onRowClick,
 }: DataTableViewProps<TData, TValue>) {
 	const { table } = useDataTable({
 		columns,
@@ -28,7 +30,7 @@ export function DataTableView<TData, TValue>({
 	})
 
 	return (
-		<DataTable table={table}>
+		<DataTable onRowClick={onRowClick} table={table}>
 			<DataTableToolbar table={table}>{actionToCreate}</DataTableToolbar>
 		</DataTable>
 	)

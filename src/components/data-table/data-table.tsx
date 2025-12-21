@@ -17,6 +17,7 @@ import type * as React from 'react'
 interface DataTableProps<TData> extends React.ComponentProps<'div'> {
 	table: TanstackTable<TData>
 	actionBar?: React.ReactNode
+	onRowClick?: (row: TData) => void
 }
 
 export function DataTable<TData>({
@@ -24,6 +25,7 @@ export function DataTable<TData>({
 	actionBar,
 	children,
 	className,
+	onRowClick,
 	...props
 }: DataTableProps<TData>) {
 	'use no memo'
@@ -62,8 +64,12 @@ export function DataTable<TData>({
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
 								<TableRow
+									className={
+										onRowClick ? 'cursor-pointer hover:bg-muted/50' : undefined
+									}
 									data-state={row.getIsSelected() && 'selected'}
 									key={row.id}
+									onClick={() => onRowClick?.(row.original)}
 								>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell
