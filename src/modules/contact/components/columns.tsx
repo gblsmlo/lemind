@@ -1,34 +1,46 @@
 'use client'
 
 import {
+	TableCellAction,
 	TableCellText,
 	TableCellTextEmpty,
 } from '@/components/data-table/data-table-cell'
-import { DataTableColumnHeader } from '@/components/data-table/data-table-view'
+import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
+import { useSheetPanel } from '@/hooks/use-sheet-panel'
 import type { ColumnDef } from '@tanstack/react-table'
-import { Avatar, AvatarFallback, AvatarImage, Text } from '@tc96/ui-react'
+import { Avatar, AvatarFallback, AvatarImage } from '@tc96/ui-react'
 import { format } from 'date-fns'
+import { useStoreContact } from '../store'
 import type { Contact } from '../types'
-import { DataTableProductsRowActions } from './row-actions'
+import { DataTableContactRowActions } from './row-actions'
 
 export const contactColumns: ColumnDef<Contact>[] = [
 	{
 		accessorKey: 'name',
 		cell: ({ row }) => {
-			console.log(row.getValue('avatar'))
+			const { toggleOpenSheet } = useSheetPanel()
+			const { onSelected } = useStoreContact()
+
+			const contact = row.original
+
+			function handleSelected() {
+				onSelected(contact)
+				toggleOpenSheet()
+			}
+
 			return (
-				<div className="flex items-center gap-2">
-					<Avatar>
-						<AvatarImage
-							alt={row.getValue('name')}
-							src={row.getValue('avatar')}
-						/>
-						<AvatarFallback>{row.getValue('name')}</AvatarFallback>
-					</Avatar>
-					<Text className="font-medium" size="sm">
-						{row.getValue('name')}
-					</Text>
-				</div>
+				<TableCellAction onClick={handleSelected}>
+					<div className="inline-flex items-center gap-2 px-1">
+						<Avatar size="sm">
+							<AvatarImage
+								alt={contact.name}
+								src={contact.avatar ?? undefined}
+							/>
+							<AvatarFallback>{contact.name}</AvatarFallback>
+						</Avatar>
+						<TableCellText>{contact.name}</TableCellText>
+					</div>
+				</TableCellAction>
 			)
 		},
 		enableColumnFilter: true,
@@ -93,12 +105,12 @@ export const contactColumns: ColumnDef<Contact>[] = [
 	{
 		accessorKey: 'action',
 		cell: ({ row }) => {
-			return <DataTableProductsRowActions row={row} />
+			return <DataTableContactRowActions row={row} />
 		},
 		header: ({ column }) => (
 			<DataTableColumnHeader column={column} label="Ações" />
 		),
 		enableSorting: false,
-		size: 48,
+		maxSize: 60,
 	},
 ]

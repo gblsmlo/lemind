@@ -4,6 +4,8 @@ import type { Contact, ContactUpdate } from '../types'
 vi.mock('../repository/contact-drizzle-repository', () => ({
 	contactRepository: {
 		update: vi.fn(),
+		findById: vi.fn(),
+		findByDocumentInSpace: vi.fn(),
 	},
 }))
 
@@ -16,6 +18,7 @@ const mockContact: Contact = {
 	email: 'john.doe@example.com',
 	phone: '+1234567890',
 	notes: 'Test contact notes',
+	document: '12345678909',
 	type: 'NEW',
 	spaceId: '550e8400-e29b-41d4-a716-446655440000',
 	createdAt: new Date('2024-01-01'),
@@ -38,6 +41,12 @@ describe('updateContactAction', () => {
 
 	it('should update contact successfully', async () => {
 		const updatedContact = { ...mockContact, ...mockContactUpdate }
+		vi.mocked(contactRepository.findById).mockResolvedValue({
+			row: mockContact,
+		})
+		vi.mocked(contactRepository.findByDocumentInSpace).mockResolvedValue({
+			row: undefined,
+		})
 		vi.mocked(contactRepository.update).mockResolvedValue({
 			row: updatedContact,
 		})
@@ -62,6 +71,7 @@ describe('updateContactAction', () => {
 			expect(result.type).toBe('VALIDATION_ERROR')
 			expect(result.message).toBe('Contact ID is required')
 		}
+		expect(contactRepository.findById).not.toHaveBeenCalled()
 		expect(contactRepository.update).not.toHaveBeenCalled()
 	})
 

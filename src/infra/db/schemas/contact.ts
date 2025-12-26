@@ -11,6 +11,7 @@ export const contactsTable = pgTable('contacts', {
 	email: text().notNull(),
 	phone: text(),
 	notes: text(),
+	document: text(),
 	type: contactStatusEnum().default('NEW').notNull(),
 	spaceId: uuid('space_id')
 		.references(() => spacesTable.id)

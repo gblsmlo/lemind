@@ -4,6 +4,7 @@ import type { Contact, ContactInsert } from '../types'
 vi.mock('../repository/contact-drizzle-repository', () => ({
 	contactRepository: {
 		create: vi.fn(),
+		findByDocumentInSpace: vi.fn(),
 	},
 }))
 
@@ -13,9 +14,11 @@ import { createContactAction } from './create-contact-action'
 const mockContact: Contact = {
 	id: '550e8400-e29b-41d4-a716-446655440010',
 	name: 'John Doe',
+	avatar: null,
 	email: 'john.doe@example.com',
 	phone: '+1234567890',
 	notes: 'Test contact notes',
+	document: '12345678909',
 	type: 'NEW',
 	spaceId: '550e8400-e29b-41d4-a716-446655440000',
 	createdAt: new Date('2024-01-01'),
@@ -27,6 +30,7 @@ const mockContactInsert: ContactInsert = {
 	email: mockContact.email,
 	phone: mockContact.phone,
 	notes: mockContact.notes,
+	document: '12345678909',
 	type: 'NEW',
 	spaceId: mockContact.spaceId,
 }
@@ -41,6 +45,9 @@ describe('createContactAction', () => {
 	})
 
 	it('should create a contact successfully', async () => {
+		vi.mocked(contactRepository.findByDocumentInSpace).mockResolvedValue({
+			row: null,
+		})
 		vi.mocked(contactRepository.create).mockResolvedValue({ row: mockContact })
 
 		const result = await createContactAction(mockContactInsert)
@@ -71,13 +78,16 @@ describe('createContactAction', () => {
 
 	it('should handle database error', async () => {
 		const dbError = new Error('Database connection failed')
+		vi.mocked(contactRepository.findByDocumentInSpace).mockResolvedValue({
+			row: null,
+		})
 		vi.mocked(contactRepository.create).mockRejectedValue(dbError)
 
 		const result = await createContactAction(mockContactInsert)
 
 		expect(result.success).toBe(false)
 		if (!result.success) {
-			expect(result.type).toBe('UNKNOWN_ERROR')
+			expect(result.type).toBe('DATABASE_ERROR')
 			expect(result.message).toBe('Failed to create contact')
 		}
 	})
@@ -95,6 +105,9 @@ describe('createContactAction', () => {
 			notes: null,
 		}
 
+		vi.mocked(contactRepository.findByDocumentInSpace).mockResolvedValue({
+			row: null,
+		})
 		vi.mocked(contactRepository.create).mockResolvedValue({
 			row: minimalContact,
 		})

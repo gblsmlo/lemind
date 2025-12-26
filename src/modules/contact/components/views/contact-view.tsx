@@ -1,8 +1,8 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { isFailure } from '@/shared/errors'
-import { findContactByIdAction } from '../actions/find-by-id-action'
-import { CreateContactForm } from './forms/create-contact-form'
-import { UpdateContactForm } from './forms/update-contact-form'
+import { findContactByIdAction } from '../../actions/find-by-id-action'
+import { CreateContactForm } from '../forms/create-contact-form'
+import { UpdateContactForm } from '../forms/update-contact-form'
 
 type ContactViewProps = {
 	contactId?: string

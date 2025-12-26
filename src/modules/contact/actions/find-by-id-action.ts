@@ -1,7 +1,6 @@
 'use server'
 
 import { failure, type Result, success } from '@/shared/errors'
-import { sleep } from '@/shared/utils/sleep'
 import { PostgrestError } from '@supabase/supabase-js'
 import { contactRepository } from '../repository/contact-drizzle-repository'
 import type { Contact } from '../types'
@@ -13,7 +12,12 @@ type Output = {
 export const findContactByIdAction = async (
 	id: string,
 ): Promise<Result<Output>> => {
-	await sleep(5000)
+	if (!id) {
+		return failure({
+			message: 'Contact ID is required',
+			type: 'VALIDATION_ERROR',
+		})
+	}
 
 	try {
 		const { row } = await contactRepository.findById(id)

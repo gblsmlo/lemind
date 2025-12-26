@@ -1,4 +1,5 @@
 import { contactsTable } from '@/infra/db/schemas'
+import { isValidDocument } from '@/lib/validators'
 import {
 	createInsertSchema,
 	createSelectSchema,
@@ -25,9 +26,20 @@ export const contactInsertFormSchema = z.object({
 	name: z
 		.string({ message: 'O nome é obrigatório.' })
 		.min(2, 'O nome deve ter no mínimo 2 caracteres.'),
-	email: z.email('Insira um email válido.'),
+	email: z
+		.string()
+		.email('Insira um email válido.')
+		.optional()
+		.or(z.literal('')),
 	phone: z.string().optional(),
 	notes: z.string().optional(),
+	document: z
+		.string()
+		.optional()
+		.refine(
+			(val) => !val || isValidDocument(val),
+			'Documento inválido. Insira um CPF ou CNPJ válido.',
+		),
 	type: z.enum(contactStatusTypes).default('NEW'),
 })
 
@@ -39,8 +51,20 @@ export const contacUpdateFormSchema = z.object({
 	name: z
 		.string({ message: 'O nome é obrigatório.' })
 		.min(2, 'O nome deve ter no mínimo 2 caracteres.'),
-	email: z.email('Insira um email válido.'),
+	email: z
+		.string()
+		.email('Insira um email válido.')
+		.optional()
+		.or(z.literal('')),
 	phone: z.string().optional(),
 	notes: z.string().optional(),
+	document: z
+		.string()
+		.optional()
+		.nullable()
+		.refine(
+			(val) => !val || isValidDocument(val),
+			'Documento inválido. Insira um CPF ou CNPJ válido.',
+		),
 	type: z.enum(contactStatusTypes).optional(),
 })

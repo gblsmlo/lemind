@@ -44,7 +44,7 @@ export function DataTableSkeleton({
 				<div className="flex flex-1 items-center gap-2">
 					{filterCount > 0
 						? Array.from({ length: filterCount }).map((_, i) => (
-								<Skeleton className="h-7 w-18 border-dashed" key={i} />
+								<Skeleton className="h-5 w-18 border-dashed" key={i} />
 							))
 						: null}
 				</div>
@@ -65,7 +65,7 @@ export function DataTableSkeleton({
 											width: cozyCellWidths[j],
 										}}
 									>
-										<Skeleton className="h-8 w-full" />
+										<Skeleton className="h-5 w-full" />
 									</TableHead>
 								))}
 							</TableRow>
@@ -82,7 +82,7 @@ export function DataTableSkeleton({
 											width: cozyCellWidths[j],
 										}}
 									>
-										<Skeleton className="h-8 w-full" />
+										<Skeleton className="h-5 w-full" />
 									</TableCell>
 								))}
 							</TableRow>

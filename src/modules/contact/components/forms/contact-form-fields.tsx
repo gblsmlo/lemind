@@ -8,6 +8,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form'
+import { InfoRow } from '@/components/ui/info-row'
 import { Input } from '@/components/ui/input'
 import {
 	Select,

@@ -98,6 +98,28 @@ export class ContactDrizzleRepository implements ContactRepository {
 			total,
 		}
 	}
+
+	async findByDocumentInSpace(
+		document: string,
+		spaceId: string,
+		excludeId?: string,
+	): Promise<EntityRowOutput<Contact>> {
+		const conditions = [
+			eq(contactsTable.document, document),
+			eq(contactsTable.spaceId, spaceId),
+		]
+
+		if (excludeId) {
+			conditions.push(eq(contactsTable.id, excludeId))
+		}
+
+		const [row] = await this.db
+			.select()
+			.from(contactsTable)
+			.where(and(...conditions))
+
+		return { row }
+	}
 }
 
 export const contactRepository = new ContactDrizzleRepository(db)

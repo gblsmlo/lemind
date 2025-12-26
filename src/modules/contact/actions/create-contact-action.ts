@@ -1,5 +1,6 @@
 'use server'
 
+import { stripNonDigits } from '@/lib/validators'
 import { failure, type Result, success } from '@/shared/errors'
 import { contactRepository } from '../repository/contact-drizzle-repository'
 import { contactInsertSchema } from '../schemas'
@@ -22,9 +23,27 @@ export const createContactAction = async (
 		})
 	}
 
-	const { name, email, phone, notes, avatar, type, spaceId } = validated.data
+	const { name, email, phone, notes, avatar, type, document, spaceId } =
+		validated.data
 
 	try {
+		// Verificar se o documento já existe no mesmo espaço
+		if (document) {
+			const sanitizedDocument = stripNonDigits(document)
+			const existing = await contactRepository.findByDocumentInSpace(
+				sanitizedDocument,
+				spaceId,
+			)
+
+			if (existing.row) {
+				return failure({
+					message: 'Já existe um contato com este documento neste espaço.',
+					type: 'VALIDATION_ERROR',
+					error: 'Duplicate document',
+				})
+			}
+		}
+
 		const result = await contactRepository.create({
 			name,
 			email,
@@ -32,6 +51,7 @@ export const createContactAction = async (
 			notes,
 			avatar,
 			type,
+			document: document ? stripNonDigits(document) : null,
 			spaceId, // TODO: Get from context/session
 		})
 

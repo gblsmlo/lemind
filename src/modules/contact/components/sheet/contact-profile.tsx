@@ -2,18 +2,25 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import { Badge } from '@tc96/ui-react'
 
-export function ContactProfile() {
+type ContactProfileProps = {
+	name: string
+	avatar?: string
+}
+
+export function ContactProfile({ name, avatar }: ContactProfileProps) {
 	return (
 		<Card>
 			<CardContent>
 				<div className="flex flex-col items-center gap-3 text-center">
 					<Avatar className="h-20 w-20 border-4 border-background shadow-sm">
-						<AvatarImage alt="" src="null" />
-						<AvatarFallback className="text-2xl">GM</AvatarFallback>
+						<AvatarImage alt={name} src={avatar} />
+						<AvatarFallback className="text-2xl">
+							{name.substring(0, 2).toUpperCase()}
+						</AvatarFallback>
 					</Avatar>
 
 					<div className="flex flex-col items-center gap-1">
-						<h3 className="font-bold text-2xl">Gabriel</h3>
+						<h3 className="font-bold text-2xl">{name}</h3>
 						<p className="font-medium text-muted-foreground text-sm">
 							Amazon Art Inc.
 						</p>

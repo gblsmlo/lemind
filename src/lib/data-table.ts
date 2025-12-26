@@ -28,10 +28,10 @@ export function getCommonPinningStyles<TData>({
 					? '4px 0 4px -4px var(--border) inset'
 					: undefined
 			: undefined,
-		height: '52px',
+		height: '36px',
 		left: isPinned === 'left' ? `${column.getStart('left')}px` : undefined,
 		opacity: isPinned ? 1 : 1,
-		padding: '12px 20px',
+		padding: '6px 12px',
 		position: isPinned ? 'sticky' : 'relative',
 		right: isPinned === 'right' ? `${column.getAfter('right')}px` : undefined,
 		width: column.getSize(),

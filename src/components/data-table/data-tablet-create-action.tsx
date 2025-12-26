@@ -1,18 +1,19 @@
 import { Button } from '@tc96/ui-react'
+import Link from 'next/link'
 import type { ReactNode } from 'react'
 
 type DataTableCreateActionProps = {
 	children: ReactNode
-	linkTo: string
+	href: string
 }
 
 export function DataTableCreateAction({
 	children,
-	linkTo,
+	href,
 }: DataTableCreateActionProps) {
 	return (
 		<Button size="sm">
-			<a href={linkTo}>{children}</a>
+			<Link href={href}>{children}</Link>
 		</Button>
 	)
 }

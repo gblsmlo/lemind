@@ -1,29 +1,16 @@
 import { MainContent } from '@/components/ui/main-content'
-import {
-	PageDescription,
-	PageHeader,
-	PageTitle,
-} from '@/components/ui/page-header'
-import { DataTableContactView } from '@/modules/contact/components/data-table-contact-view'
+import { ContactsView } from '@/modules/contact/components/views/contacts-view'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-	description: 'View and manage your contacts',
-	title: 'Contacts',
+	title: 'Contatos',
+	description: 'Visualize e gerencie seus contatos',
 }
 
 export default function Page() {
-	const title = String(metadata.title)
-	const description = String(metadata.description)
-
 	return (
 		<MainContent size="2xl">
-			<PageHeader>
-				<PageTitle>{title}</PageTitle>
-				<PageDescription>{description}</PageDescription>
-			</PageHeader>
-
-			<DataTableContactView />
+			<ContactsView />
 		</MainContent>
 	)
 }

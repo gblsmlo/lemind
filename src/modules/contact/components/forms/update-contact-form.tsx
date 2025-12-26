@@ -26,14 +26,15 @@ export function UpdateContactForm({ contact }: UpdateContactFormProps) {
 	const [isPending, startTransition] = useTransition()
 	const router = useRouter()
 
-	const form = useForm<ContactUpdateFormData>({
+	const form = useForm({
 		resolver: zodResolver(contacUpdateFormSchema),
 		values: {
 			avatar: contact.avatar,
 			name: contact.name,
-			email: contact.email,
+			email: contact.email || '',
 			phone: contact.phone ?? '',
 			notes: contact.notes ?? '',
+			document: contact.document ?? '',
 			type: contact.type,
 		},
 	})
@@ -74,6 +75,8 @@ export function UpdateContactForm({ contact }: UpdateContactFormProps) {
 				if (dirtyFields.email) updatePayload.email = formData.email
 				if (dirtyFields.phone) updatePayload.phone = formData.phone
 				if (dirtyFields.notes) updatePayload.notes = formData.notes
+				if (dirtyFields.document)
+					updatePayload.document = formData.document || null
 				if (dirtyFields.type) updatePayload.type = formData.type
 
 				if (Object.keys(updatePayload).length === 0) {

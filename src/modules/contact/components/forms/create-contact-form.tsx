@@ -1,13 +1,19 @@
 'use client'
 
 import { Alert, AlertTitle } from '@/components/ui/alert'
-import { Form } from '@/components/ui/form'
+import { FileUpload } from '@/components/ui/file-upload'
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormMessage,
+} from '@/components/ui/form'
 import { uploadToBucket } from '@/lib/supabase/upload-to-bucket'
 import { useAuth } from '@/modules/auth'
 import { isFailure, isSuccess } from '@/shared/errors'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@tc96/ui-react'
-import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -20,12 +26,12 @@ import { ContactFormFields } from './contact-form-fields'
 // Hardcoded spaceId - TODO: Get from context/session
 const DEFAULT_SPACE_ID = 'a069aabe-abdd-4b03-9c11-84437f7d1384'
 
-export function CreateContactForm() {
+export function CreateContactForm({ formId }: { formId: string }) {
 	const { user } = useAuth()
 	const [isPending, startTransition] = useTransition()
 	const router = useRouter()
 
-	const form = useForm<ContactInsertFormData>({
+	const form = useForm({
 		resolver: zodResolver(contactInsertFormSchema),
 		defaultValues: {
 			avatar: null,
@@ -33,6 +39,7 @@ export function CreateContactForm() {
 			email: '',
 			phone: '',
 			notes: '',
+			document: '',
 			type: 'NEW',
 		},
 	})
@@ -68,6 +75,7 @@ export function CreateContactForm() {
 				phone: formData.phone,
 				notes: formData.notes,
 				avatar: avatarUrl,
+				document: formData.document || undefined,
 				type: formData.type,
 				spaceId: DEFAULT_SPACE_ID,
 			})
@@ -94,7 +102,7 @@ export function CreateContactForm() {
 
 	return (
 		<Form {...form}>
-			<form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+			<form className="flex flex-col gap-6" id={formId} onSubmit={handleSubmit}>
 				<div className="grid gap-4">
 					{form.formState.errors.root && (
 						<Alert variant="destructive">
@@ -102,25 +110,128 @@ export function CreateContactForm() {
 						</Alert>
 					)}
 
-					<ContactFormFields form={form} isDisabled={isDisabled} />
+					{/* <ContactFormFields form={form} isDisabled={isDisabled} /> */}
 
-					<div className="flex justify-end gap-4">
-						<Button
-							disabled={isDisabled}
-							onClick={handleCancel}
-							type="button"
-							variant="ghost"
-						>
-							Cancelar
-						</Button>
-						<Button disabled={isDisabled}>
-							{isLoading ? (
-								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-							) : (
-								'Salvar'
-							)}
-						</Button>
-					</div>
+					<FormField
+						control={form.control}
+						name="avatar"
+						render={({ field }) => {
+							// Adapter para FileUpload: converte string URL em FileMetadata
+							// const adaptedValue =
+							// 	typeof field.value === 'string' && field.value
+							// 		? {
+							// 				url: field.value,
+							// 				name: 'avatar',
+							// 				size: 0,
+							// 				type: 'image/*',
+							// 				id: 'existing-avatar',
+							// 			}
+							// 		: field.value
+
+							const adaptedOnChange = (file: File | null) => {
+								field.onChange(file)
+							}
+
+							return (
+								<FormItem>
+									<FormControl>
+										<FileUpload
+											disabled={isDisabled}
+											name={field.name}
+											onBlur={field.onBlur}
+											onChange={adaptedOnChange}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)
+						}}
+					/>
+
+					<FormField
+						control={form.control}
+						name={'name' as Path<T>}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Nome</FormLabel>
+								<FormControl>
+									<Input placeholder="Nome completo" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name={'email' as Path<T>}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Email</FormLabel>
+								<FormControl>
+									<Input
+										placeholder="email@exemplo.com"
+										type="email"
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name={'phone' as Path<T>}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Telefone</FormLabel>
+								<FormControl>
+									<Input placeholder="(00) 00000-0000" type="tel" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name={'notes' as Path<T>}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Notas</FormLabel>
+								<FormControl>
+									<Textarea placeholder="" rows={4} {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name={'type' as Path<T>}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Status</FormLabel>
+								<Select
+									disabled={isDisabled}
+									onValueChange={field.onChange}
+									value={field.value as string}
+								>
+									<FormControl>
+										<SelectTrigger>
+											<SelectValue placeholder="Selecione o status" />
+										</SelectTrigger>
+									</FormControl>
+									<SelectContent>
+										{contactStatusTypes.map((status) => (
+											<SelectItem key={status} value={status}>
+												{status}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 				</div>
 			</form>
 		</Form>

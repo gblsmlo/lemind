@@ -2,7 +2,13 @@
 
 import { cn } from '@/lib/utils'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
-import { XIcon } from 'lucide-react'
+import { Button } from '@tc96/ui-react'
+import {
+	Maximize2Icon,
+	PanelLeftClose,
+	PanelRightClose,
+	XIcon,
+} from 'lucide-react'
 import type * as React from 'react'
 
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
@@ -34,12 +40,30 @@ function SheetOverlay({
 	return (
 		<SheetPrimitive.Overlay
 			className={cn(
-				'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=open]:animate-in',
+				'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/70 data-[state=closed]:animate-out data-[state=open]:animate-in',
 				className,
 			)}
 			data-slot="sheet-overlay"
 			{...props}
 		/>
+	)
+}
+
+type SheetActionsProps = {
+	onOpen: () => void
+}
+
+function SheetActions() {
+	return (
+		<div className="flex items-center justify-between">
+			<SheetPrimitive.Close className="-ml-2">
+				<Button isIcon size="sm" variant="ghost">
+					<XIcon className="size-4" />
+					<span className="sr-only">Close</span>
+				</Button>
+			</SheetPrimitive.Close>
+			<div>...</div>
+		</div>
 	)
 }
 
@@ -56,7 +80,7 @@ function SheetContent({
 			<SheetOverlay />
 			<SheetPrimitive.Content
 				className={cn(
-					'fixed z-50 flex flex-col gap-4 bg-background shadow-lg transition ease-in-out data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:duration-300 data-[state=open]:duration-500',
+					'fixed z-50 flex flex-col gap-4 bg-sidebar-secondary shadow-lg transition ease-in-out data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:duration-300 data-[state=open]:duration-500',
 					side === 'right' &&
 						'data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm',
 					side === 'left' &&
@@ -71,29 +95,31 @@ function SheetContent({
 				{...props}
 			>
 				{children}
-				<SheetPrimitive.Close className="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-					<XIcon className="size-4" />
-					<span className="sr-only">Close</span>
-				</SheetPrimitive.Close>
 			</SheetPrimitive.Content>
 		</SheetPortal>
 	)
 }
 
-function SheetHeader({ className, ...props }: React.ComponentProps<'div'>) {
+function SheetHeader({
+	className,
+	children,
+	...props
+}: React.ComponentProps<'div'>) {
 	return (
 		<div
-			className={cn('flex flex-col gap-1.5 p-4', className)}
+			className={cn('flex h-10 flex-col gap-1.5 px-4 py-3', className)}
 			data-slot="sheet-header"
 			{...props}
-		/>
+		>
+			{children}
+		</div>
 	)
 }
 
 function SheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
 	return (
 		<div
-			className={cn('mt-auto flex flex-col gap-2 p-4', className)}
+			className={cn('mt-auto flex justify-end gap-2 p-4', className)}
 			data-slot="sheet-footer"
 			{...props}
 		/>
@@ -129,6 +155,7 @@ function SheetDescription({
 export {
 	Sheet,
 	SheetTrigger,
+	SheetActions,
 	SheetClose,
 	SheetContent,
 	SheetHeader,

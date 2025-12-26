@@ -1,7 +1,12 @@
+import { DataTableView } from '@/components/data-table/data-table-view'
+import { SheetPanel } from '@/components/sheet-panel'
+import { SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { isFailure, isSuccess } from '@/shared/errors'
 import { findContacts } from '../actions/find-contacts-actions'
+import { NewRowButton } from '../new-row-button'
 import type { FindContactsInput } from '../types'
-import { ContactDataTable } from './contact-data-table'
+import { contactColumns } from './columns'
+import { SheetContentContact } from './sheet/sheet-content-contact'
 
 export async function DataTableContact() {
 	const spaceId = 'a069aabe-abdd-4b03-9c11-84437f7d1384'
@@ -17,9 +22,19 @@ export async function DataTableContact() {
 	const result = await findContacts(input)
 
 	if (isSuccess(result)) {
-		const { rows, total } = result.data
+		const { rows } = result.data
 
-		return <ContactDataTable data={rows ?? []} pageCount={total} />
+		return (
+			<>
+				<DataTableView columns={contactColumns} data={rows ?? []}>
+					<NewRowButton>Novo contato</NewRowButton>
+				</DataTableView>
+
+				<SheetPanel>
+					<SheetContentContact />
+				</SheetPanel>
+			</>
+		)
 	}
 
 	if (isFailure(result)) {

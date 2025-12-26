@@ -4,8 +4,8 @@ import {
 	PageHeader,
 	PageTitle,
 } from '@/components/ui/page-header'
-import { ContactView } from '@/modules/contact/components/contact-view'
-import { ContactViewSkeleton } from '@/modules/contact/components/contact-view-skeleton'
+import { ContactView } from '@/modules/contact/components/views/contact-view'
+import { ContactViewSkeleton } from '@/modules/contact/components/views/contact-view-skeleton'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 

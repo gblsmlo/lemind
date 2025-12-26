@@ -8,6 +8,7 @@ vi.mock('@/infra/db', () => ({
 		email: 'mock-email',
 		phone: 'mock-phone',
 		notes: 'mock-notes',
+		document: 'mock-document',
 		type: 'mock-type',
 		spaceId: 'mock-spaceId',
 		createdAt: 'mock-createdAt',
@@ -26,6 +27,7 @@ const mockContact: Contact = {
 	email: 'john.doe@example.com',
 	phone: '+1234567890',
 	notes: 'Test contact notes',
+	document: '12345678909',
 	type: 'NEW',
 	spaceId: '550e8400-e29b-41d4-a716-446655440000',
 	createdAt: new Date('2024-01-01'),
@@ -37,6 +39,7 @@ const mockContactInsert: ContactInsert = {
 	email: mockContact.email,
 	phone: mockContact.phone,
 	notes: mockContact.notes,
+	document: '12345678909',
 	type: 'NEW',
 	spaceId: mockContact.spaceId,
 }
