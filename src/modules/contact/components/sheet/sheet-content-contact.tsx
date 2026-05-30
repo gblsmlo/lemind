@@ -1,17 +1,6 @@
 'use client'
 
 import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuSubContent,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import {
-	SheetActions,
-	SheetClose,
 	SheetContent,
 	SheetFooter,
 	SheetHeader,
@@ -20,16 +9,15 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@tc96/ui-react'
 import { Files, Home, ListTodo, NotepadText } from 'lucide-react'
-import { useId, useState } from 'react'
+import { useId } from 'react'
 import { useStoreContact } from '../../store'
 import { ActivityTimeline } from '../activity-timeline'
-import { CreateContactForm } from '../forms'
+import { ContactForm } from '../forms'
 import { NotesTab } from './notes-tab'
 
 export function SheetContentContact() {
 	const formId = useId()
 	const { selected, operation } = useStoreContact()
-	const [isEditing, setIsEditing] = useState(false)
 
 	if (!selected && operation === 'UPDATE') {
 		return (
@@ -42,14 +30,16 @@ export function SheetContentContact() {
 	}
 
 	const isCreateMode = operation === 'CREATE'
-	const showForm = isCreateMode || isEditing
 
-	const title = isCreateMode ? 'Novo Contato' : 'Contato'
+	console.log(formId)
 
+	const onSubmit = (formData: FormData) => {
+		console.log(formData)
+	}
 	return (
 		<SheetContent className="border-t">
 			<SheetHeader>
-				<SheetActions />
+				<SheetTitle>Contato</SheetTitle>
 			</SheetHeader>
 			<Tabs defaultValue="home">
 				<TabsList className="w-full border-b">
@@ -72,8 +62,11 @@ export function SheetContentContact() {
 				</TabsList>
 
 				<TabsContent className="m-0 p-4" value="home">
+					<ContactForm formId={formId} />
+
+					{/* <CreateContactForm formId={formId} /> */}
 					{/* {showForm ? (
-						<CreateContactForm formId={formId} />
+						
 					) : (
 						<HomeContactTab initialValues={selected ?? null} />
 					)} */}
@@ -95,24 +88,6 @@ export function SheetContentContact() {
 			</Tabs>
 
 			<SheetFooter>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button size="sm" variant="outline">
-							Actions
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent>
-						<DropdownMenuItem>Abrir</DropdownMenuItem>
-						<DropdownMenuItem>Editar</DropdownMenuItem>
-
-						<DropdownMenuSeparator />
-						<DropdownMenuItem asChild>
-							<Button size="sm" variant="destructive">
-								Delete
-							</Button>
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
 				<Button form={formId} size="sm" type="submit">
 					Save
 				</Button>

@@ -1,3 +1,2 @@
-export { ContactFormFields } from './contact-form-fields'
-export { CreateContactForm } from './create-contact-form'
+export { ContactForm } from './contact-form'
 export { UpdateContactForm } from './update-contact-form'

@@ -30,9 +30,10 @@ export type Contact = z.infer<typeof contactSelectSchema>
 export type ContactInsert = z.infer<typeof contactInsertSchema>
 export type ContactUpdate = z.infer<typeof contactUpdateSchema>
 
-export type ContactFormData = z.infer<typeof contactInsertFormSchema>
 export type ContactInsertFormData = z.infer<typeof contactInsertFormSchema>
-export type ContactUpdateFormData = z.infer<typeof contacUpdateFormSchema>
+
+// export type ContactInsertFormData = z.infer<typeof contactInsertFormSchema>
+// export type ContactUpdateFormData = z.infer<typeof contacUpdateFormSchema>
 
 export type FindContactsInput = z.infer<typeof findContactsInput>
 

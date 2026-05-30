@@ -15,7 +15,6 @@ import { toast } from 'sonner'
 import { updateContactAction } from '../../actions/update-contact-action'
 import { contacUpdateFormSchema } from '../../schemas'
 import type { Contact, ContactUpdate, ContactUpdateFormData } from '../../types'
-import { ContactFormFields } from './contact-form-fields'
 
 interface UpdateContactFormProps {
 	contact: Contact

@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { isFailure } from '@/shared/errors'
 import { findContactByIdAction } from '../../actions/find-by-id-action'
-import { CreateContactForm } from '../forms/create-contact-form'
+import { ContactForm } from '../forms/contact-form'
 import { UpdateContactForm } from '../forms/update-contact-form'
 
 type ContactViewProps = {
@@ -13,7 +13,7 @@ export async function ContactView({ contactId }: ContactViewProps) {
 		return (
 			<Card>
 				<CardContent>
-					<CreateContactForm />
+					<ContactForm />
 				</CardContent>
 			</Card>
 		)
